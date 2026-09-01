@@ -1,16 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="app_icon_size">48dp</dimen>
-    <dimen name="tab_layout_height">48dp</dimen>
-    <dimen name="home_primary_elevation">8dp</dimen>
+    <dimen name="app_icon_size">56dp</dimen>
+    <dimen name="tab_layout_height">52dp</dimen>
+    <dimen name="home_primary_elevation">12dp</dimen>
 
-    <dimen name="card_radius_small">12dp</dimen>
-    <dimen name="card_radius_medium">16dp</dimen>
-    <dimen name="card_radius_large">20dp</dimen>
-    <dimen name="card_radius_xl">24dp</dimen>
+    <dimen name="card_radius_small">14dp</dimen>
+    <dimen name="card_radius_medium">20dp</dimen>
+    <dimen name="card_radius_large">24dp</dimen>
+    <dimen name="card_radius_xl">28dp</dimen>
 
-    <dimen name="card_elevation_low">2dp</dimen>
-    <dimen name="card_elevation_medium">4dp</dimen>
-    <dimen name="card_elevation_high">8dp</dimen>
+    <dimen name="card_elevation_low">3dp</dimen>
+    <dimen name="card_elevation_medium">6dp</dimen>
+    <dimen name="card_elevation_high">12dp</dimen>
 
     <dimen name="spacing_xs">4dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
@@ -18,16 +19,17 @@
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_xl">32dp</dimen>
 
-    <dimen name="button_height">48dp</dimen>
-    <dimen name="button_min_width">120dp</dimen>
+    <dimen name="button_height">52dp</dimen>
+    <dimen name="button_min_width">130dp</dimen>
 
     <dimen name="icon_size_small">20dp</dimen>
     <dimen name="icon_size_medium">24dp</dimen>
     <dimen name="icon_size_large">32dp</dimen>
 
-    <dimen name="status_card_min_height">72dp</dimen>
-    <dimen name="status_icon_size">28dp</dimen>
+    <dimen name="status_card_min_height">84dp</dimen>
+    <dimen name="status_icon_size">32dp</dimen>
 
-    <dimen name="nav_bar_height">64dp</dimen>
+    <dimen name="nav_bar_height">68dp</dimen>
     <dimen name="nav_icon_size">24dp</dimen>
+    <dimen name="nav_floating_margin">16dp</dimen>
 </resources>

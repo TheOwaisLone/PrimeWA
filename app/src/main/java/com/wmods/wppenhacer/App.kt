@@ -4,9 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -35,7 +37,10 @@ class App : Application() {
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
             val mode = sharedPreferences.getString("thememode", "0")!!.toInt()
             setThemeMode(mode)
+            val hideLauncher = sharedPreferences.getBoolean("hide_launcher_icon", false)
+            setLauncherIconHidden(this, hideLauncher)
             changeLanguage(this)
+            com.wmods.wppenhacer.ads.AdHelper.initialize(this)
         } catch (e: Exception) {
             Utils.showToast("[PREFS] Error accessing app data: ${e.message}")
         }
@@ -54,6 +59,7 @@ class App : Application() {
     private fun installCrashHandler() {
         val previousHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            Log.e("WaEnhancerCrash", "Uncaught exception in WaEnhancer thread ${thread.name}", throwable)
             try {
                 val intent = Intent(this, CrashReportActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -148,14 +154,37 @@ class App : Application() {
             get() {
                 val download =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val waEnhancerFolder = File(download, "WaEnhancer")
-                if (!waEnhancerFolder.exists()) waEnhancerFolder.mkdirs()
-                return waEnhancerFolder
+                val folder = File(download, "PrimeWA")
+                if (!folder.exists()) folder.mkdirs()
+                return folder
             }
+
+        @JvmStatic
+        fun setLauncherIconHidden(context: Context, hide: Boolean) {
+            try {
+                val componentName = ComponentName(
+                    context,
+                    "com.wmods.wppenhacer.activities.MainActivityLauncher"
+                )
+                val newState = if (hide) {
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                } else {
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                }
+                context.packageManager.setComponentEnabledSetting(
+                    componentName,
+                    newState,
+                    PackageManager.DONT_KILL_APP
+                )
+                Log.d("PrimeWA", "setLauncherIconHidden: hide=$hide, state=$newState")
+            } catch (e: Throwable) {
+                Log.e("PrimeWA", "Failed to toggle launcher icon visibility", e)
+            }
+        }
 
         @Suppress("SimplifyBooleanWithConstants", "KotlinConstantConditions")
         @JvmStatic
         val isOriginalPackage: Boolean
-            get() = BuildConfig.APPLICATION_ID == "com.wmods.wppenhacer"
+            get() = BuildConfig.APPLICATION_ID == "com.owais.primewa" || BuildConfig.APPLICATION_ID == "com.wmods.wppenhacer"
     }
 }

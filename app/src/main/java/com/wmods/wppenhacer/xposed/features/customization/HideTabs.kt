@@ -19,11 +19,17 @@ class HideTabs(loader: ClassLoader, preferences:SharedPreferences) : Feature(loa
 
     @Throws(Throwable::class)
     override fun doHook() {
-        val hidetabs = prefs.getStringSet("hidetabs", null)
+        val rawHideTabs = prefs.getStringSet("hidetabs", null) ?: emptySet()
+        val hidetabsSet = rawHideTabs.toMutableSet()
+        if (prefs.getBoolean("pure_messaging_mode", false)) {
+            hidetabsSet.add("100")
+            hidetabsSet.add("300")
+            hidetabsSet.add("400")
+        }
         val igstatus = prefs.getBoolean("igstatus", false)
-        if (hidetabs.isNullOrEmpty()) return
+        if (hidetabsSet.isEmpty()) return
 
-        val hideTabsList = hidetabs.map { it.toInt() }
+        val hideTabsList = hidetabsSet.mapNotNull { it.toIntOrNull() }
 
         val onCreateTabList = Unobfuscator.loadTabListMethod(classLoader)
         logDebug(Unobfuscator.getMethodDescriptor(onCreateTabList))

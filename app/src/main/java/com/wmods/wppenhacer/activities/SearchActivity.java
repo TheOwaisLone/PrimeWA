@@ -121,7 +121,7 @@ public class SearchActivity extends BaseActivity implements SearchAdapter.OnFeat
 
         // Navigate back to MainActivity with feature information
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("navigate_to_fragment", feature.getFragmentType().getPosition());
+        intent.putExtra("target_fragment", feature.getFragmentType().name());
         intent.putExtra("scroll_to_preference", feature.getKey());
         intent.putExtra("parent_preference", feature.getParentKey());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -18,11 +18,7 @@ public class MediaFragment extends BasePreferenceFragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setDisplayHomeAsUpEnabled(false);
-    }
+
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {

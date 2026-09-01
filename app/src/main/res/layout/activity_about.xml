@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:elevation="0dp">
+        app:elevation="8dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="220dp"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/primary_color"
             app:expandedTitleGravity="bottom|start"
             app:expandedTitleMarginBottom="@dimen/spacing_medium"
             app:expandedTitleMarginStart="@dimen/spacing_medium"
@@ -36,10 +38,10 @@
                 android:padding="@dimen/spacing_large">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    app:cardCornerRadius="@dimen/card_radius_medium"
-                    app:cardElevation="@dimen/card_elevation_medium"
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    app:cardCornerRadius="@dimen/card_radius_large"
+                    app:cardElevation="@dimen/card_elevation_high"
                     app:strokeWidth="0dp">
 
                     <ImageView
@@ -57,7 +59,7 @@
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:text="@string/app_name"
                     android:textColor="@color/text_on_gradient"
-                    android:textSize="22sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -99,14 +101,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvMainFeatures"
                         style="@style/SectionTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/about" />
+                        android:text="@string/about"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvFeaturesSummary"
@@ -129,14 +132,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvInstallation"
                         style="@style/SectionTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/installation" />
+                        android:text="@string/installation"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvInstallationSteps"
@@ -159,33 +163,70 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/SectionTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Community &amp; Repositories"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnTelegram"
+                        android:id="@+id/btnTelegramPrime"
                         style="@style/ModernButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="?attr/colorPrimary"
-                        android:text="@string/go_to_telegram"
+                        android:backgroundTint="@color/primary_color"
+                        android:text="@string/primewa_telegram"
                         app:icon="@drawable/ic_telegram"
                         app:iconGravity="start"
                         app:iconPadding="@dimen/spacing_small" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnGithub"
+                        android:id="@+id/btnGithubPrime"
                         style="@style/ModernButton.Outlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_small"
-                        android:text="@string/go_to_github"
+                        android:text="@string/primewa_github"
                         app:icon="@drawable/ic_github"
                         app:iconGravity="start"
                         app:iconPadding="@dimen/spacing_small"
-                        app:strokeColor="?attr/colorPrimary" />
+                        app:strokeColor="@color/primary_color" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTelegramUpstream"
+                        style="@style/ModernButton.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/upstream_telegram"
+                        app:icon="@drawable/ic_telegram"
+                        app:iconGravity="start"
+                        app:iconPadding="@dimen/spacing_small" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGithubUpstream"
+                        style="@style/ModernButton.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/upstream_github"
+                        app:icon="@drawable/ic_github"
+                        app:iconGravity="start"
+                        app:iconPadding="@dimen/spacing_small" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:visibility="gone" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/CardInfoStyle"
@@ -198,14 +239,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvContributors"
                         style="@style/SectionTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/contributors" />
+                        android:text="@string/contributors"
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/contributorsContainer"
@@ -228,14 +270,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvSupport"
                         style="@style/SectionTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/support" />
+                        android:text="@string/support"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvSupportDetails"
@@ -251,21 +294,22 @@
                 style="@style/CardInfoStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_xl"
                 app:cardBackgroundColor="@color/surface_container">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/spacing_medium">
+                    android:padding="@dimen/spacing_large">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvLicense"
                         style="@style/SectionTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/license" />
+                        android:text="@string/license"
+                        android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvLicenseDetails"

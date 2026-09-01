@@ -24,8 +24,19 @@ class TypingPrivacy(
         val method: Method = Unobfuscator.loadGhostModeMethod(classLoader)
         logDebug(Unobfuscator.getMethodDescriptor(method))
 
+        val simTyping = prefs.getBoolean("simulate_typing", false)
+        val simRecording = prefs.getBoolean("simulate_recording", false)
+
         XposedBridge.hookMethod(method, object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
+                if (simRecording) {
+                    if (param.args.isNotEmpty()) param.args[0] = 1
+                    return
+                } else if (simTyping) {
+                    if (param.args.isNotEmpty()) param.args[0] = 0
+                    return
+                }
+
                 val type = ReflectionUtils.getArg(param.args, Int::class.javaObjectType, 0)
                 val jidObj = ReflectionUtils.getArg(param.args, FMessageWpp.UserJid.TYPE_JID, 0)
 

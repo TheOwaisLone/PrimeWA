@@ -172,18 +172,25 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private int getCategoryColor(SearchableFeature.Category category) {
             switch (category) {
                 case GENERAL:
-                case GENERAL_HOME:
-                case GENERAL_HOMESCREEN:
-                case GENERAL_CONVERSATION:
                     return Color.parseColor("#4CAF50"); // Green
+                case CONVERSATION:
+                    return Color.parseColor("#009688"); // Teal
+                case STATUS:
+                    return Color.parseColor("#E91E63"); // Pink
+                case HOME:
+                    return Color.parseColor("#3F51B5"); // Indigo
                 case PRIVACY:
                     return Color.parseColor("#2196F3"); // Blue
-                case MEDIA:
-                    return Color.parseColor("#FF9800"); // Orange
+                case CALLS:
+                    return Color.parseColor("#00BCD4"); // Cyan
                 case CUSTOMIZATION:
                     return Color.parseColor("#9C27B0"); // Purple
+                case MEDIA:
+                    return Color.parseColor("#FF9800"); // Orange
                 case RECORDINGS:
                     return Color.parseColor("#F44336"); // Red
+                case MISC:
+                    return Color.parseColor("#795548"); // Brown
                 case HOME_ACTIONS:
                     return Color.parseColor("#607D8B"); // Blue Grey
                 default:

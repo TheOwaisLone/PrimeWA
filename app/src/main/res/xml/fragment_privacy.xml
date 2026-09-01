@@ -2,164 +2,212 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/home_screen">
-
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/archive_entries"
-            android:entryValues="@array/archive_values"
-            app:key="typearchive"
-            app:summary="@string/hide_archived_chat_sum"
-            app:title="@string/hide_archived_chat" />
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_presence_ghost">
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:defaultValue="true"
-            app:key="show_freezeLastSeen"
-            app:summary="@string/show_freezeLastSeen_sum"
-            app:title="@string/show_freezeLastSeen_button" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:key="ghostmode"
-            app:summary="@string/ghost_mode_sum"
-            app:title="@string/ghost_mode_title" />
+            app:summary="@string/ghostmode_sum"
+            app:title="@string/ghostmode" />
 
         <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="ghostmode_t"
+            app:summary="@string/hide_typing_status_sum"
+            app:title="@string/hide_typing_status" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="ghostmode_r"
+            app:summary="@string/hide_recording_status_sum"
+            app:title="@string/hide_recording_status" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="freezelastseen"
+            app:summary="@string/freezelastseen_sum"
+            app:title="@string/freezelastseen" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
             app:key="always_online"
             app:summary="@string/always_online_sum"
             app:title="@string/always_online" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="lockedchats_enhancer"
-            app:summary="@string/lockedchats_enhancer_sum"
-            app:title="@string/lockedchats_enhancer" />
+            app:defaultValue="false"
+            app:key="showonlinetext"
+            app:summary="@string/showonlinetext_sum"
+            app:title="@string/showonlinetext" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="dotonline"
+            app:summary="@string/dotonline_sum"
+            app:title="@string/dotonline" />
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_message_protection">
+
+        <ListPreference
+            app:defaultValue="2"
+            app:entries="@array/antirevoke_entries"
+            app:entryValues="@array/antirevoke_values"
+            app:key="antirevoke"
+            app:summary="@string/antirevoke_sum"
+            app:title="@string/antirevoke" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="antidisappearing"
+            app:summary="@string/antidisappearing_sum"
+            app:title="@string/antidisappearing" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="revokeallmessages"
+            app:summary="@string/delete_for_everyone_all_messages_sum"
+            app:title="@string/delete_for_everyone_all_messages" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/conversation">
+        app:title="@string/category_read_receipts">
 
         <ListPreference
-            app:defaultValue="0"
-            app:entries="@array/custom_privacy_entries"
-            app:entryValues="@array/custom_privacy_values"
-            app:key="custom_privacy_type"
-            app:summary="@string/custom_privacy_per_contact_sum"
-            app:title="@string/custom_privacy_per_contact" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="freezelastseen"
-            app:summary="@string/freezelastseen_sum"
-            app:title="@string/freezelastseen" />
-
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hideread"
-            app:summary="@string/hideread_sum"
-            app:title="@string/hideread" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hide_seen_view"
-            app:dependency="hideread"
-            app:summary="@string/view_seen_tick_sum"
-            app:title="@string/view_seen_tick" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="blueonreply"
-            app:summary="@string/blueonreply_sum"
-            app:title="@string/blueonreply" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hideread_group"
-            app:summary="@string/hideread_group_sum"
-            app:title="@string/hideread_group" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hidereceipt"
-            app:summary="@string/hidereceipt_sum"
-            app:title="@string/hidereceipt" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="ghostmode_t"
-            app:summary="@string/ghostmode_sum"
-            app:title="@string/ghostmode" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="ghostmode_r"
-            app:summary="@string/ghostmode_sum_r"
-            app:title="@string/ghostmode_r" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hideonceseen"
-            app:summary="@string/hide_once_view_seen_sum"
-            app:title="@string/hide_once_view_seen" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="hideaudioseen"
-            app:summary="@string/hide_audio_seen_sum"
-            app:title="@string/hide_audio_seen" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="viewonce"
-            app:summary="@string/viewonce_sum"
-            app:title="@string/viewonce" />
-
-        <ListPreference
+            android:defaultValue="0"
             app:entries="@array/seentick_buttons"
             app:entryValues="@array/seentick_values"
             app:key="seentick"
-            app:summary="@string/show_button_to_send_blue_tick_sum"
-            app:title="@string/show_button_to_send_blue_tick" />
+            app:summary="%s"
+            app:title="@string/seentick" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
-        app:title="@string/status">
         <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="blueonreply"
+            app:summary="@string/blue_ticks_after_reply_sum"
+            app:title="@string/blue_ticks_after_reply" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hideread"
+            app:summary="@string/hide_blue_ticks_sum"
+            app:title="@string/hide_blue_ticks" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hideaudioseen"
+            app:summary="@string/hide_voice_note_blue_ticks_sum"
+            app:title="@string/hide_voice_note_blue_ticks" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hideonceseen"
+            app:summary="@string/hide_view_once_opened_sum"
+            app:title="@string/hide_view_once_opened" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hideread_group"
+            app:summary="@string/hide_read_ticks_in_groups_sum"
+            app:title="@string/hide_read_ticks_in_groups" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
             app:key="hidestatusview"
-            app:summary="@string/hidestatusview_sum"
-            app:title="@string/hidestatusview" />
+            app:summary="@string/hideseen_sum"
+            app:title="@string/hideseen" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hidereceipt"
+            app:summary="@string/hide_second_tick_sum"
+            app:title="@string/hide_second_tick" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/calls">
+        app:title="@string/category_status_simulation">
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="call_info"
-            app:summary="@string/additional_call_information_sum"
-            app:title="@string/additional_call_information" />
+            app:defaultValue="false"
+            app:key="typingprivacy"
+            app:summary="@string/typingprivacy_sum"
+            app:title="@string/typingprivacy" />
 
-        <ListPreference
-            app:entries="@array/call_blocker_buttons"
-            app:entryValues="@array/call_blocker_values"
-            app:key="call_privacy"
-            app:summary="@string/call_blocker_sum"
-            app:title="@string/call_blocker" />
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="simulate_typing"
+            app:summary="@string/simulate_typing_sum"
+            app:title="@string/simulate_typing" />
 
-        <ListPreference
-            app:entries="@array/call_type_buttons"
-            app:entryValues="@array/call_type_values"
-            app:key="call_type"
-            app:summary="@string/call_blocking_type_sum"
-            app:title="@string/call_blocking_type" />
-
-        <com.wmods.wppenhacer.preference.ContactPickerPreference
-            android:key="call_block_contacts"
-            android:title="@string/contact_block_list"
-            app:summaryOff="@string/no_contacts_selected"
-            app:summaryOn="@string/contact_were_selected" />
-
-        <com.wmods.wppenhacer.preference.ContactPickerPreference
-            android:key="call_white_contacts"
-            android:title="@string/contact_white_list"
-            app:summaryOff="@string/no_contacts_selected"
-            app:summaryOn="@string/contact_were_selected" />
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="simulate_recording"
+            app:summary="@string/simulate_recording_sum"
+            app:title="@string/simulate_recording" />
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_toast_alerts">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="showonline"
+            app:summary="@string/show_toast_on_contact_online_sum"
+            app:title="@string/show_toast_on_contact_online" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="toastdeleted"
+            app:summary="@string/toast_on_delete_sum"
+            app:title="@string/toast_on_delete" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="toast_viewed_message"
+            app:summary="@string/toast_on_viewed_message_sum"
+            app:title="@string/toast_on_viewed_message" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_chat_security">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="dndmode"
+            app:summary="@string/dndmode_sum"
+            app:title="@string/dndmode" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hidechat"
+            app:summary="@string/hidechat_sum"
+            app:title="@string/hidechat" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="verify_blocked_contact"
+            app:summary="@string/show_contact_added_status_sum"
+            app:title="@string/show_contact_added_status" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="biometric_lock"
+            app:summary="@string/biometric_lock_sum"
+            app:title="@string/biometric_lock" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

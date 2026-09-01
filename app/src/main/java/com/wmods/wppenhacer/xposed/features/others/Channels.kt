@@ -31,8 +31,8 @@ class Channels(loader: ClassLoader, preferences:SharedPreferences) : Feature(loa
     }
 
     override fun doHook() {
-        val channels = prefs.getBoolean("channels", false)
-        val removechannelRec = prefs.getBoolean("removechannel_rec", false)
+        val channels = prefs.getBoolean("channels", false) || prefs.getBoolean("pure_messaging_mode", false)
+        val removechannelRec = prefs.getBoolean("removechannel_rec", false) || prefs.getBoolean("pure_messaging_mode", false)
 
         if (!channels && !removechannelRec) return
 

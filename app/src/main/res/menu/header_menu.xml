@@ -17,10 +17,17 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menu_about"
-        android:icon="@drawable/about"
-        android:title="@string/about"
+        android:id="@+id/menu_theme_toggle"
+        android:icon="@drawable/ic_theme_mode"
+        android:title="@string/theme_mode"
         app:iconTint="@color/text_on_gradient"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_round_settings_24"
+        android:title="@string/action_settings"
+        app:iconTint="@color/text_on_gradient"
+        app:showAsAction="always" />
 
 </menu>

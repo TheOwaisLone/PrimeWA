@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_msg_actions">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="floatingmenu"
+            app:summary="@string/new_context_menu_ui_sum"
+            app:title="@string/new_context_menu_ui" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="antieditmessages"
+            app:summary="@string/show_edited_message_history_sum"
+            app:title="@string/show_edited_message_history" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="copy_selection_message"
+            app:summary="@string/copy_selection_message_sum"
+            app:title="@string/copy_selection_message_title" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="stamp_copied_message"
+            app:summary="@string/stamp_copied_messages_sum"
+            app:title="@string/stamp_copied_messages" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hidetag"
+            app:summary="@string/hidetag_sum"
+            app:title="@string/hidetag" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="removeforwardlimit"
+            app:summary="@string/removeforwardlimit_sum"
+            app:title="@string/removeforwardlimit" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="removeseemore"
+            app:summary="@string/remove_see_more_button_"
+            app:title="@string/remove_see_more_button" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="jump_first_message"
+            app:summary="@string/jump_first_message_sum"
+            app:title="@string/jump_first_message" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_reactions_translate">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="doubletap2like"
+            app:summary="@string/double_click_to_like_sum"
+            app:title="@string/double_click_to_react" />
+
+        <com.wmods.wppenhacer.preference.LimitedEditTextPreference
+            android:defaultValue="👍"
+            app:dependency="doubletap2like"
+            app:key="doubletap2like_emoji"
+            app:maxLength="2"
+            app:summary="@string/custom_reaction_sum"
+            app:title="@string/custom_reaction" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="google_translate"
+            app:summary="@string/google_translate_sum"
+            app:title="@string/google_translate" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_emojis_stickers">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="force_disable_emojis"
+            app:summary="@string/force_disable_emojis_sum"
+            app:title="@string/force_disable_emojis" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_defemojis"
+            app:summary="@string/disable_default_emojis_sum"
+            app:title="@string/disable_default_emojis" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="animation_emojis"
+            app:summary="@string/animation_emojis_sum"
+            app:title="@string/animation_emojis" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="alertsticker"
+            app:summary="@string/enable_confirmation_to_send_sticker_sum"
+            app:title="@string/enable_confirmation_to_send_sticker" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="remove_sticker_white_outline"
+            app:summary="@string/remove_sticker_white_outline_sum"
+            app:title="@string/remove_sticker_white_outline" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_audio_sensor">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_voice_note"
+            app:summary="@string/disable_voice_note_sum"
+            app:title="@string/disable_voice_note" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_sensor_proximity"
+            app:summary="@string/disable_proximity_sensor_sum"
+            app:title="@string/disable_proximity_sensor" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="proximity_audios"
+            app:summary="@string/proximity_audios_sum"
+            app:title="@string/proximity_audios" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_group_tools">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="admin_grp"
+            app:summary="@string/show_admin_group_icon_sum"
+            app:title="@string/show_admin_group_icon" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="broadcast_tag"
+            app:summary="@string/show_chat_broadcast_icon_sum"
+            app:title="@string/show_chat_broadcast_icon" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_swipe_up_in_group"
+            app:summary="@string/disable_swipe_up_in_group_sum"
+            app:title="@string/disable_swipe_up_in_group" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="about_contact_picker"
+            app:summary="@string/show_contact_bio_sum"
+            app:title="@string/show_contact_bio" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="scheduled_messages"
+            app:summary="@string/scheduled_messages_sum"
+            app:title="@string/scheduled_messages" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="chat_analytics"
+            app:summary="@string/chat_analytics_sum"
+            app:title="@string/chat_analytics" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="lockedchats_enhancer"
+            app:summary="@string/locked_chats_sum"
+            app:title="@string/locked_chats" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -4,7 +4,12 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/general">
+        app:title="@string/colors_customization">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:key="amoled_dark_theme"
+            app:summary="@string/amoled_dark_theme_sum"
+            app:title="@string/amoled_dark_theme" />
 
         <rikka.material.preference.MaterialSwitchPreference
             app:key="changecolor"
@@ -80,73 +85,11 @@
             app:showSeekBarValue="true"
             app:title="@string/navigation_transparency" />
 
-        <MultiSelectListPreference
-            app:entries="@array/tabshide_contents"
-            app:entryValues="@array/tabshide_values"
-            app:key="hidetabs"
-            app:summary="@string/hide_tabs_on_home_sum"
-            app:title="@string/hide_tabs_on_home" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:defaultValue="true"
-            android:summary="@string/custom_filters_sum"
-            app:key="custom_filters"
-            app:title="@string/custom_appearance" />
-
-        <EditTextPreference
-            android:summary="@string/filter_items_by_id_sum"
-            app:dependency="custom_filters"
-            app:key="filter_items"
-            app:title="@string/filter_items_by_id" />
-
-        <EditTextPreference
-            android:summary="@string/custom_theme_css_sum"
-            app:dependency="custom_filters"
-            app:key="css_theme"
-            app:title="@string/custom_theme_css" />
-
-        <EditTextPreference
-            android:summary="@string/change_default_dpi_sum"
-            app:defaultValue="0"
-            app:dependency="custom_filters"
-            app:key="change_dpi"
-            app:title="@string/change_default_dpi" />
-
-        <com.wmods.wppenhacer.preference.ThemePreference
-            android:key="folder_theme"
-            app:dependency="custom_filters"
-            android:summary="@string/manage_theme_sum"
-            android:title="@string/theme_manager" />
-
-        <ListPreference
-            android:entries="@array/animations_names"
-            app:defaultValue="default"
-            app:entryValues="@array/animations_values"
-            app:key="animation_list"
-            app:summary="@string/list_animations_home_screen_sum"
-            app:title="@string/list_animations_home_screen" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/conversation">
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="admin_grp"
-            app:summary="@string/show_admin_group_icon_sum"
-            app:title="@string/show_admin_group_icon" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:summary="@string/new_context_menu_ui_sum"
-            app:key="floatingmenu"
-            app:title="@string/new_context_menu_ui" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:defaultValue="true"
-            app:key="animation_emojis"
-            app:summary="@string/animation_emojis_sum"
-            app:title="@string/animation_emojis" />
+        app:title="@string/change_bubble_colors">
 
         <rikka.material.preference.MaterialSwitchPreference
             app:key="bubble_color"
@@ -166,80 +109,44 @@
             app:key="bubble_right"
             app:summary="@string/default_color"
             app:title="@string/bubble_right" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
-        app:title="@string/home_screen">
-
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="menuwicon"
-            app:summary="@string/menuwicon_sum"
-            app:title="@string/menuwicon" />
-
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="floating_bottom_bar"
-            app:summary="@string/floating_bottom_bar_sum"
-            app:title="@string/floating_bottom_bar" />
-
-        <SeekBarPreference
-            android:defaultValue="24"
-            android:max="64"
-            app:dependency="floating_bottom_bar"
-            app:key="floating_bottom_bar_radius"
-            app:min="0"
-            app:showSeekBarValue="true"
-            app:title="@string/floating_bottom_bar_radius" />
-
-
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/configui_entries"
-            android:entryValues="@array/configui_values"
-            app:key="configui_mode"
-            app:summary="@string/configui_sum"
-            app:title="@string/configui" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/status">
+        app:title="@string/custom_appearance">
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="igstatus"
-            app:summary="@string/igstatus_on_home_screen_sum"
-            app:title="@string/igstatus_on_home_screen" />
+            android:defaultValue="false"
+            android:summary="@string/custom_filters_sum"
+            app:key="custom_filters"
+            app:title="@string/custom_appearance" />
 
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="channels"
-            app:summary="@string/disable_channels_sum"
-            app:title="@string/disable_channels" />
+        <EditTextPreference
+            android:summary="@string/filter_items_by_id_sum"
+            app:dependency="custom_filters"
+            app:key="filter_items"
+            app:title="@string/filter_items_by_id" />
 
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="removechannel_rec"
-            app:summary="@string/remove_channel_recomendations_sum"
-            app:title="@string/remove_channel_recomendations" />
+        <EditTextPreference
+            android:summary="@string/custom_theme_css_sum"
+            app:dependency="custom_filters"
+            app:key="css_theme"
+            app:title="@string/custom_theme_css" />
 
-        <ListPreference
+        <EditTextPreference
+            android:summary="@string/change_default_dpi_sum"
             android:defaultValue="0"
-            android:entries="@array/status_style_entries"
-            android:entryValues="@array/status_style_values"
-            app:key="status_style"
-            app:summary="@string/style_of_stories_status_sum"
-            app:title="@string/style_of_stories_status" />
+            app:dependency="custom_filters"
+            app:key="change_dpi"
+            app:title="@string/change_default_dpi" />
 
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="oldstatus"
-            app:summary="@string/old_statuses_sum"
-            app:title="@string/old_statuses" />
+        <com.wmods.wppenhacer.preference.ThemePreference
+            android:key="folder_theme"
+            app:dependency="custom_filters"
+            android:summary="@string/manage_theme_sum"
+            android:title="@string/theme_manager" />
 
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="statuscomposer"
-            app:summary="@string/custom_colors_for_text_status_sum"
-            app:title="@string/custom_colors_for_text_status" />
     </PreferenceCategory>
 
 </PreferenceScreen>

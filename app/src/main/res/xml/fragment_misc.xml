@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_device_integrity">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="bootloader_spoofer"
+            app:summary="@string/spoof_bootloader_sum"
+            app:title="@string/spoof_bootloader" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:dependency="bootloader_spoofer"
+            app:key="bootloader_spoofer_custom"
+            app:summary="@string/spoof_keybox_sum"
+            app:title="@string/spoof_keybox" />
+
+        <com.wmods.wppenhacer.preference.FileReaderPreference
+            app:dependency="bootloader_spoofer_custom"
+            app:iconSpaceReserved="false"
+            app:key="bootloader_spoofer_xml"
+            app:summary="@string/custom_keybox_file_sum"
+            app:title="@string/custom_keybox_file" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_system_tools">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="tasker"
+            app:summary="@string/tasker_integration_sum"
+            app:title="@string/tasker_integration" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_expiration"
+            app:summary="@string/disable_whatsapp_expiration_sum"
+            app:title="@string/disable_whatsapp_expiration" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="force_restore_backup_feature"
+            app:summary="@string/force_restore_backup_summary"
+            app:title="@string/force_restore_backup" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="force_english"
+            app:title="@string/force_english" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_ads"
+            app:summary="@string/disable_ads_sum"
+            app:title="@string/disable_ads" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

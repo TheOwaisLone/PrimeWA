@@ -60,6 +60,25 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String scrollToKey = null;
+        if (getArguments() != null) {
+            scrollToKey = getArguments().getString("scroll_to_preference");
+            getArguments().remove("scroll_to_preference");
+        }
+        if (scrollToKey == null && getActivity() != null && getActivity().getIntent() != null) {
+            scrollToKey = getActivity().getIntent().getStringExtra("scroll_to_preference");
+            if (scrollToKey != null) {
+                getActivity().getIntent().removeExtra("scroll_to_preference");
+            }
+        }
+        if (scrollToKey != null) {
+            scrollToPreference(scrollToKey);
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         setDisplayHomeAsUpEnabled(true);
@@ -148,6 +167,9 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
         if (Objects.equals(key, "thememode")) {
             var mode = Integer.parseInt(mPrefs.getString("thememode", "0"));
             App.setThemeMode(mode);
+            if (getActivity() != null) {
+                getActivity().recreate();
+            }
         }
 
         var colorMode = mPrefs.getString("wae_color_mode", "preset");
@@ -164,6 +186,13 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
             mPrefs.edit().commit();
             if (getContext() != null) {
                 Utils.doRestart(getContext());
+            }
+        }
+
+        if (Objects.equals(key, "hide_launcher_icon")) {
+            boolean hide = mPrefs.getBoolean("hide_launcher_icon", false);
+            if (getContext() != null) {
+                App.setLauncherIconHidden(getContext(), hide);
             }
         }
 

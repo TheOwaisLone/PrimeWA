@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme" />
-
     <style name="ThemeOverlay.MaterialGreen" parent="ThemeOverlay.Material3">
         <item name="colorPrimary">#9CD899</item>
         <item name="colorOnPrimary">#00390A</item>

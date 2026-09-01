@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_call_privacy">
+
+        <ListPreference
+            android:defaultValue="0"
+            app:entries="@array/call_blocker_buttons"
+            app:entryValues="@array/call_blocker_values"
+            app:key="call_privacy"
+            app:summary="%s"
+            app:title="@string/call_privacy" />
+
+        <ListPreference
+            android:defaultValue="no_internet"
+            app:entries="@array/call_type_buttons"
+            app:entryValues="@array/call_type_values"
+            app:key="call_type"
+            app:summary="%s"
+            app:title="@string/call_type" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="call_info"
+            app:summary="@string/show_caller_network_info_sum"
+            app:title="@string/show_caller_network_info" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_call_filters">
+
+        <Preference
+            app:key="call_block_contacts"
+            app:summary="@string/contact_block_list_sum"
+            app:title="@string/contact_block_list" />
+
+        <Preference
+            app:key="call_white_contacts"
+            app:summary="@string/contact_white_list_sum"
+            app:title="@string/contact_white_list" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

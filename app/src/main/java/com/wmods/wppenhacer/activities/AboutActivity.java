@@ -42,9 +42,12 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ActivityAboutBinding binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.btnTelegramPrime.setOnClickListener(v -> openUrl("https://t.me/primewa"));
+        binding.btnGithubPrime.setOnClickListener(view -> openUrl("https://github.com/owais/prime-wa"));
+        binding.btnTelegramUpstream.setOnClickListener(v -> openUrl("https://t.me/waenhancer"));
+        binding.btnGithubUpstream.setOnClickListener(view -> openUrl("https://github.com/Dev4Mod/WaEnhancer"));
 
-        binding.btnTelegram.setOnClickListener(v -> openUrl("https://t.me/waenhancer"));
-        binding.btnGithub.setOnClickListener(view -> openUrl("https://github.com/Dev4Mod/WaEnhancer"));
+        com.wmods.wppenhacer.ads.AdHelper.loadNativeAd(this, binding.nativeAdContainer);
 
         int topMargin = getResources().getDimensionPixelSize(R.dimen.spacing_small);
         for (int i = 0; i < CONTRIBUTORS.length; i++) {
@@ -52,6 +55,7 @@ public class AboutActivity extends BaseActivity {
             MaterialButton button = new MaterialButton(new ContextThemeWrapper(this, R.style.ModernButton_Outlined));
             button.setText(contributor[0]);
             button.setIconResource(R.drawable.ic_github);
+            button.setIconSize((int) (20 * getResources().getDisplayMetrics().density));
             button.setIconGravity(MaterialButton.ICON_GRAVITY_TEXT_START);
             button.setIconPadding(getResources().getDimensionPixelSize(R.dimen.spacing_small));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

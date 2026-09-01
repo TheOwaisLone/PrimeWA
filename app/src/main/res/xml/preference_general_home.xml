@@ -30,7 +30,7 @@
 
         <rikka.material.preference.MaterialSwitchPreference
             app:key="update_check"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:summary="@string/update_check_sum"
             app:title="@string/update_check" />
 
@@ -68,6 +68,12 @@
             app:title="@string/disable_version_check" />
 
         <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="hide_launcher_icon"
+            app:summary="@string/hide_launcher_icon_sum"
+            app:title="@string/hide_launcher_icon" />
+
+        <rikka.material.preference.MaterialSwitchPreference
             android:summary="@string/bootloader_spoofer_sum"
             android:title="@string/bootloader_spoofer"
             app:key="bootloader_spoofer" />
@@ -78,10 +84,11 @@
             app:key="bootloader_spoofer_custom" />
 
         <com.wmods.wppenhacer.preference.FileReaderPreference
-            android:key="bootloader_spoofer_xml"
-            android:dependency="bootloader_spoofer_custom"
-            android:title="Use Custom keybox.xml file"
-            android:summary="No file selected" />
+            app:dependency="bootloader_spoofer_custom"
+            app:iconSpaceReserved="false"
+            app:key="bootloader_spoofer_xml"
+            app:summary="No file selected"
+            app:title="Use Custom keybox.xml file" />
 
         <rikka.material.preference.MaterialSwitchPreference
             app:key="ampm"

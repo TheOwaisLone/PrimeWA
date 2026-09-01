@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_layout_styling">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="pure_messaging_mode"
+            app:summary="@string/pure_messaging_mode_sum"
+            app:title="@string/pure_messaging_mode" />
+
+        <ListPreference
+            android:defaultValue="0"
+            app:entries="@array/configui_entries"
+            app:entryValues="@array/configui_values"
+            app:key="configui_mode"
+            app:summary="@string/configui_sum"
+            app:title="@string/configui" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="floating_bottom_bar"
+            app:summary="@string/floating_bottom_bar_sum"
+            app:title="@string/floating_bottom_bar" />
+
+        <SeekBarPreference
+            android:defaultValue="24"
+            android:max="64"
+            app:dependency="floating_bottom_bar"
+            app:key="floating_bottom_bar_radius"
+            app:min="0"
+            app:showSeekBarValue="true"
+            app:title="@string/floating_bottom_bar_radius" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="menuwicon"
+            app:summary="@string/menuwicon_sum"
+            app:title="@string/menuwicon" />
+
+        <ListPreference
+            android:entries="@array/animations_names"
+            app:defaultValue="default"
+            app:entryValues="@array/animations_values"
+            app:key="animation_list"
+            app:summary="@string/list_animations_home_screen_sum"
+            app:title="@string/list_animations_home_screen" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_tabs_navigation">
+
+        <MultiSelectListPreference
+            app:entries="@array/tabshide_contents"
+            app:entryValues="@array/tabshide_values"
+            app:key="hidetabs"
+            app:summary="@string/hide_tabs_on_home_sum"
+            app:title="@string/hide_tabs_on_home" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="separategroups"
+            app:summary="@string/separate_groups_sum"
+            app:title="@string/separate_groups" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="filtergroups"
+            app:summary="@string/new_ui_group_filter_sum"
+            app:title="@string/new_ui_group_filter" />
+
+        <ListPreference
+            android:defaultValue="2"
+            app:entries="@array/chatfilter_buttons"
+            app:entryValues="@array/chatfilter_values"
+            app:key="chatfilter"
+            app:summary="@string/novofiltro_sum"
+            app:title="@string/novofiltro" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="filterseen"
+            app:summary="@string/enable_filter_chats_sum"
+            app:title="@string/enable_filter_chats" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_header_actions">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="shownamehome"
+            app:summary="@string/showname_sum"
+            app:title="@string/showname" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="showbiohome"
+            app:summary="@string/showbio_sum"
+            app:title="@string/showbio" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="buttonaction"
+            app:summary="@string/show_menu_buttons_as_icons_sum"
+            app:title="@string/show_menu_buttons_as_icons" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="show_dndmode"
+            app:summary="@string/show_dnd_button_sum"
+            app:title="@string/show_dnd_button" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="show_freezeLastSeen"
+            app:summary="@string/show_freezeLastSeen_sum"
+            app:title="@string/show_freezeLastSeen_button" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="newchat"
+            app:summary="@string/enable_new_chat_button_sum"
+            app:title="@string/enable_new_chat_button" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="restartbutton"
+            app:summary="@string/enable_restart_button_sum"
+            app:title="@string/enable_restart_button" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="open_wae"
+            app:summary="@string/enable_wa_enhancer_button_sum"
+            app:title="@string/enable_wa_enhancer_button" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_chat_list">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="pinnedlimit"
+            app:summary="@string/disable_pinned_limit_sum"
+            app:title="@string/disable_pinned_limit" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="metaai"
+            app:summary="@string/disable_metaai_sum"
+            app:title="@string/disable_metaai" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="disable_profile_status"
+            app:summary="@string/disable_status_in_the_profile_photo_sum"
+            app:title="@string/disable_status_in_the_profile_photo" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

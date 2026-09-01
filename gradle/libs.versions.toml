@@ -16,6 +16,7 @@ nav = "2.9.6"
 kotlin = "2.4.10"
 markwon = "4.6.2"
 remotePreferences = "0.8"
+playServicesAds = "23.6.0"
 
 [libraries]
 androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
@@ -30,6 +31,7 @@ filepicker = { module = "io.github.tutorialsandroid:filepicker", version.ref = "
 flatbuffers = { module = "com.google.flatbuffers:flatbuffers-java", version.ref = "flatbuffers" }
 jstyleparser = { module = "net.sf.cssbox:jstyleparser", version.ref = "jstyleparser" }
 libxposed-legacy = { group = "de.robv.android.xposed", name = "api", version.ref = "xposed-legacy" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 
 androidx-activity = { module = "androidx.activity:activity", version = "1.13.0" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.1" }

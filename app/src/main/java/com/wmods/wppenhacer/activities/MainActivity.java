@@ -9,21 +9,18 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.navigation.NavigationBarView;
 import com.waseemsabir.betterypermissionhelper.BatteryPermissionHelper;
 import com.wmods.wppenhacer.App;
 import com.wmods.wppenhacer.R;
 import com.wmods.wppenhacer.activities.base.BaseActivity;
-import com.wmods.wppenhacer.adapter.MainPagerAdapter;
 import com.wmods.wppenhacer.databinding.ActivityMainBinding;
-import com.wmods.wppenhacer.ui.fragments.GeneralFragment;
-import com.wmods.wppenhacer.ui.fragments.HomeFragment;
-import com.wmods.wppenhacer.ui.fragments.base.BasePreferenceFragment;
+import com.wmods.wppenhacer.ui.fragments.FeaturesHubFragment;
 import com.wmods.wppenhacer.utils.FilePicker;
 
 import java.io.File;
@@ -32,12 +29,12 @@ public class MainActivity extends BaseActivity {
 
     private ActivityMainBinding binding;
     private BatteryPermissionHelper batteryPermissionHelper = BatteryPermissionHelper.Companion.getInstance();
-    private String pendingScrollToPreference = null;
-    private int pendingScrollToFragment = -1;
-    private String pendingParentKey = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        var prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        var mode = Integer.parseInt(prefs.getString("thememode", "0"));
+        App.setThemeMode(mode);
         App.changeLanguage(this);
         super.onCreate(savedInstanceState);
 
@@ -46,71 +43,139 @@ public class MainActivity extends BaseActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        MainPagerAdapter pagerAdapter = new MainPagerAdapter(this);
-        binding.viewPager.setAdapter(pagerAdapter);
-
-        binding.viewPager.setPageTransformer(new DepthPageTransformer());
-
-        var prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        if (!prefs.getBoolean("call_recording_enable", false)) {
-            binding.navView.getMenu().findItem(R.id.navigation_recordings).setVisible(false);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new FeaturesHubFragment())
+                    .commit();
+            handleNavigationIntent(getIntent());
         }
 
-        binding.navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.navigation_chat) {
-                    binding.viewPager.setCurrentItem(0, true);
-                    return true;
-                } else if (itemId == R.id.navigation_privacy) {
-                    binding.viewPager.setCurrentItem(1, true);
-                    return true;
-                } else if (itemId == R.id.navigation_home) {
-                    binding.viewPager.setCurrentItem(2, true);
-                    return true;
-                } else if (itemId == R.id.navigation_media) {
-                    binding.viewPager.setCurrentItem(3, true);
-                    return true;
-                } else if (itemId == R.id.navigation_colors) {
-                    binding.viewPager.setCurrentItem(4, true);
-                    return true;
-                } else if (itemId == R.id.navigation_recordings) {
-                    binding.viewPager.setCurrentItem(5);
-                    return true;
-                }
-                return false;
+            public void onBackStackChanged() {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                updateToolbarForFragment(currentFragment);
+                invalidateOptionsMenu();
             }
         });
 
-        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                binding.navView.getMenu().getItem(position).setChecked(true);
-                
-                // Handle pending scroll after page change
-                if (pendingScrollToFragment == position && pendingScrollToPreference != null) {
-                    final String scrollKey = pendingScrollToPreference;
-                    final String parentKey = pendingParentKey;
-                    pendingScrollToPreference = null;
-                    pendingScrollToFragment = -1;
-                    pendingParentKey = null;
-                    
-                    // Wait for fragment to be ready
-                    binding.viewPager.postDelayed(() -> {
-                        scrollToPreferenceInCurrentFragment(scrollKey, parentKey);
-                    }, 300);
+            public void handleOnBackPressed() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    finish();
                 }
             }
         });
-        binding.viewPager.setCurrentItem(2, false);
+
         createMainDir();
         FilePicker.registerFilePicker(this);
-        
-        // Handle incoming navigation from search
-        handleIncomingIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleNavigationIntent(intent);
+    }
+
+    private void handleNavigationIntent(Intent intent) {
+        if (intent == null) return;
+        String targetFragment = intent.getStringExtra("target_fragment");
+        String scrollToKey = intent.getStringExtra("scroll_to_preference");
+        if (targetFragment != null) {
+            Fragment fragment = switch (targetFragment) {
+                case "GENERAL" -> new com.wmods.wppenhacer.ui.fragments.GeneralFragment();
+                case "CONVERSATION" -> new com.wmods.wppenhacer.ui.fragments.ConversationFragment();
+                case "STATUS" -> new com.wmods.wppenhacer.ui.fragments.StatusFragment();
+                case "HOME" -> new com.wmods.wppenhacer.ui.fragments.HomeCustomizationFragment();
+                case "PRIVACY" -> new com.wmods.wppenhacer.ui.fragments.PrivacyFragment();
+                case "CALLS" -> new com.wmods.wppenhacer.ui.fragments.CallsFragment();
+                case "CUSTOMIZATION" -> new com.wmods.wppenhacer.ui.fragments.CustomizationFragment();
+                case "MEDIA" -> new com.wmods.wppenhacer.ui.fragments.MediaFragment();
+                case "RECORDINGS" -> new com.wmods.wppenhacer.ui.fragments.RecordingsFragment();
+                case "MISC" -> new com.wmods.wppenhacer.ui.fragments.MiscFragment();
+                default -> null;
+            };
+
+            if (fragment != null) {
+                if (scrollToKey != null) {
+                    Bundle args = new Bundle();
+                    args.putString("scroll_to_preference", scrollToKey);
+                    fragment.setArguments(args);
+                }
+                navigateToCategory(fragment);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        invalidateOptionsMenu();
+    }
+
+    public void navigateToCategory(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right
+                )
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+        updateToolbarForFragment(fragment);
+    }
+
+    public void updateToolbarForFragment(Fragment fragment) {
+        boolean canGoBack = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(canGoBack);
+        }
+        if (fragment == null || fragment instanceof FeaturesHubFragment) {
+            binding.toolbar.setLogo(R.drawable.ic_toolbar_logo);
+            binding.toolbar.setTitle(R.string.app_name);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+        } else {
+            binding.toolbar.setLogo(null);
+            if (fragment instanceof com.wmods.wppenhacer.ui.fragments.HomeCustomizationFragment) {
+                binding.toolbar.setTitle(R.string.home_screen);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.GeneralFragment) {
+                binding.toolbar.setTitle(R.string.general);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.ConversationFragment) {
+                binding.toolbar.setTitle(R.string.conversation);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.StatusFragment) {
+                binding.toolbar.setTitle(R.string.status);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.PrivacyFragment) {
+                binding.toolbar.setTitle(R.string.privacy);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.CallsFragment) {
+                binding.toolbar.setTitle(R.string.calls);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.CustomizationFragment) {
+                binding.toolbar.setTitle(R.string.customization);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.MediaFragment) {
+                binding.toolbar.setTitle(R.string.media);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.RecordingsFragment) {
+                binding.toolbar.setTitle(R.string.call_recordings_hub);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.MiscFragment) {
+                binding.toolbar.setTitle(R.string.misc);
+            } else if (fragment instanceof com.wmods.wppenhacer.ui.fragments.SettingsAboutFragment) {
+                binding.toolbar.setTitle(R.string.settings_and_about);
+            }
+        }
     }
 
     private void createMainDir() {
@@ -120,132 +185,94 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIncomingIntent(intent);
-    }
-    
-    private void handleIncomingIntent(Intent intent) {
-        if (intent == null) return;
-        
-        int fragmentPosition = intent.getIntExtra("navigate_to_fragment", -1);
-        String preferenceKey = intent.getStringExtra("scroll_to_preference");
-        String parentKey = intent.getStringExtra("parent_preference");
-        
-        if (fragmentPosition >= 0 && preferenceKey != null) {
-            // Store the scroll target
-            pendingScrollToPreference = preferenceKey;
-            pendingScrollToFragment = fragmentPosition;
-            pendingParentKey = parentKey;
-            
-            // Navigate to the fragment (onPageSelected will handle the scroll)
-            binding.viewPager.setCurrentItem(fragmentPosition, false);
-            
-            // Clear intent extras
-            intent.removeExtra("navigate_to_fragment");
-            intent.removeExtra("scroll_to_preference");
-            intent.removeExtra("parent_preference");
-        } else if (fragmentPosition >= 0) {
-            // Just navigate without scrolling
-            binding.viewPager.setCurrentItem(fragmentPosition, true);
-        }
-    }
-    
-    private void scrollToPreferenceInCurrentFragment(String preferenceKey, String parentKey) {
-        // Get the current fragment from the ViewPager
-        int currentItem = binding.viewPager.getCurrentItem();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("f" + currentItem);
-        
-        if (fragment == null) return;
-        
-        // Handle different fragment types
-        if (fragment instanceof GeneralFragment || fragment instanceof HomeFragment) {
-            // These fragments have child fragments
-            if (parentKey != null && !parentKey.isEmpty()) {
-                // Navigate to sub-fragment first, then scroll
-                navigateToSubFragmentAndScroll(fragment, parentKey, preferenceKey);
-            } else {
-                // Direct scroll in current child fragment
-                scrollInChildFragment(fragment, preferenceKey);
-            }
-        } else if (fragment instanceof BasePreferenceFragment) {
-            // Direct preference fragments (no nesting)
-            ((BasePreferenceFragment) fragment).scrollToPreference(preferenceKey);
-        }
-    }
-    
-    private void navigateToSubFragmentAndScroll(Fragment parentFragment, String parentKey, String childPreferenceKey) {
-        // Directly instantiate the sub-fragment
-        Fragment subFragment = null;
-        
-        switch (parentKey) {
-            case "general_home":
-                subFragment = new GeneralFragment.HomeGeneralPreference();
-                break;
-            case "homescreen":
-                subFragment = new GeneralFragment.HomeScreenGeneralPreference();
-                break;
-            case "conversation":
-                subFragment = new GeneralFragment.ConversationGeneralPreference();
-                break;
-        }
-        
-        if (subFragment != null && parentFragment.getView() != null) {
-            final Fragment finalSubFragment = subFragment;
-            // Replace the current child fragment
-            parentFragment.getChildFragmentManager().beginTransaction()
-                .replace(R.id.frag_container, subFragment)
-                .commitNow();
-            
-            // Wait for fragment to be ready, then scroll
-            parentFragment.getView().postDelayed(() -> {
-                if (finalSubFragment instanceof BasePreferenceFragment) {
-                    ((BasePreferenceFragment) finalSubFragment).scrollToPreference(childPreferenceKey);
-                }
-            }, 400);
-        }
-    }
-    
-    private void scrollInChildFragment(Fragment parentFragment, String preferenceKey) {
-        Fragment childFragment = parentFragment.getChildFragmentManager().findFragmentById(R.id.frag_container);
-        if (childFragment instanceof BasePreferenceFragment) {
-            ((BasePreferenceFragment) childFragment).scrollToPreference(preferenceKey);
-        }
-    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
+    private boolean isBatteryOptimizationIgnored() {
+        var powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        return powerManager != null && powerManager.isIgnoringBatteryOptimizations(getPackageName());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.header_menu, menu);
-        var powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        if (powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
-            menu.findItem(R.id.batteryoptimization).setVisible(false);
-        }
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean isRoot = getSupportFragmentManager().getBackStackEntryCount() == 0;
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        boolean isSettings = currentFragment instanceof com.wmods.wppenhacer.ui.fragments.SettingsAboutFragment;
+
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
+        if (searchItem != null) {
+            searchItem.setVisible(isRoot && !isSettings);
+        }
+
+        MenuItem themeItem = menu.findItem(R.id.menu_theme_toggle);
+        if (themeItem != null) {
+            themeItem.setVisible(isRoot && !isSettings);
+        }
+
+        MenuItem settingsItem = menu.findItem(R.id.action_settings);
+        if (settingsItem != null) {
+            settingsItem.setVisible(isRoot && !isSettings);
+        }
+
+        MenuItem batteryItem = menu.findItem(R.id.batteryoptimization);
+        if (batteryItem != null) {
+            batteryItem.setVisible(isRoot && !isBatteryOptimizationIgnored());
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void showThemeSelectionDialog() {
+        var prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        int currentMode = 0;
+        try {
+            currentMode = Integer.parseInt(prefs.getString("thememode", "0"));
+        } catch (Exception ignored) {}
+
+        String[] options = getResources().getStringArray(R.array.thememode_entries);
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.theme_mode)
+                .setSingleChoiceItems(options, currentMode, (dialog, which) -> {
+                    prefs.edit().putString("thememode", String.valueOf(which)).apply();
+                    App.setThemeMode(which);
+                    dialog.dismiss();
+                    recreate();
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     @SuppressLint("BatteryLife")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_search) {
+        if (item.getItemId() == android.R.id.home) {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+                return true;
+            }
+        } else if (item.getItemId() == R.id.menu_search) {
             var options = ActivityOptionsCompat.makeCustomAnimation(
                     this, R.anim.slide_in_right, R.anim.slide_out_left);
             startActivity(new Intent(this, SearchActivity.class), options.toBundle());
             return true;
-        } else if (item.getItemId() == R.id.menu_about) {
-            var options = ActivityOptionsCompat.makeCustomAnimation(
-                    this, R.anim.slide_in_right, R.anim.slide_out_left);
-            startActivity(new Intent(this, AboutActivity.class), options.toBundle());
+        } else if (item.getItemId() == R.id.menu_theme_toggle) {
+            showThemeSelectionDialog();
+            return true;
+        } else if (item.getItemId() == R.id.action_settings) {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (!(currentFragment instanceof com.wmods.wppenhacer.ui.fragments.SettingsAboutFragment)) {
+                navigateToCategory(new com.wmods.wppenhacer.ui.fragments.SettingsAboutFragment());
+            }
             return true;
         } else if (item.getItemId() == R.id.batteryoptimization) {
+            if (isBatteryOptimizationIgnored()) {
+                invalidateOptionsMenu();
+                return true;
+            }
             if (batteryPermissionHelper.isBatterySaverPermissionAvailable(this, true)) {
                 batteryPermissionHelper.getPermission(this, true, true);
             } else {
@@ -254,6 +281,7 @@ public class MainActivity extends BaseActivity {
                 intent.setData(Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, 0);
             }
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -264,35 +292,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }
-
-    private static class DepthPageTransformer implements ViewPager2.PageTransformer {
-        private static final float MIN_SCALE = 0.85f;
-
-        @Override
-        public void transformPage(@NonNull android.view.View page, float position) {
-            int pageWidth = page.getWidth();
-
-            if (position < -1) {
-                page.setAlpha(0f);
-            } else if (position <= 0) {
-                page.setAlpha(1f);
-                page.setTranslationX(0f);
-                page.setTranslationZ(0f);
-                page.setScaleX(1f);
-                page.setScaleY(1f);
-            } else if (position <= 1) {
-                page.setAlpha(1 - position);
-                page.setTranslationX(pageWidth * -position);
-                page.setTranslationZ(-1f);
-                float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-                page.setScaleX(scaleFactor);
-                page.setScaleY(scaleFactor);
-            } else {
-                page.setAlpha(0f);
-            }
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+            return true;
         }
+        return super.onSupportNavigateUp();
     }
 }

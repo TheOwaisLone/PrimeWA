@@ -129,6 +129,17 @@ class HomeFragment : BaseFragment() {
             showDiagnosticsDialog()
         }
 
+        binding.toolsCardHeader.setOnClickListener {
+            val isVisible = binding.toolsContentContainer.visibility == View.VISIBLE
+            if (isVisible) {
+                binding.toolsContentContainer.visibility = View.GONE
+                binding.toolsExpandIcon.animate().rotation(0f).setDuration(200).start()
+            } else {
+                binding.toolsContentContainer.visibility = View.VISIBLE
+                binding.toolsExpandIcon.animate().rotation(180f).setDuration(200).start()
+            }
+        }
+
         checkForUpdates()
         startCardAnimations()
 
@@ -340,9 +351,6 @@ class HomeFragment : BaseFragment() {
             binding.status3.visibility = View.GONE
         }
         checkWpp(activity)
-        binding.deviceName.text = Build.MANUFACTURER
-        binding.sdk.text = Build.VERSION.SDK_INT.toString()
-        binding.modelName.text = Build.DEVICE
         if (App.isOriginalPackage) {
             binding.listWpp.text = activity.resources.getStringArray(R.array.supported_versions_wpp).contentToString()
         } else {

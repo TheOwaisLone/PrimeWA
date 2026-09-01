@@ -347,6 +347,10 @@ class CustomThemeV2(loader: ClassLoader, preferences:SharedPreferences) :
                 processColors(backgroundColor, IColors.backgroundColors)
             }
 
+            if (prefs.getBoolean("amoled_dark_theme", false) && DesignUtils.isNightMode()) {
+                processColors("#ff000000", IColors.backgroundColors)
+            }
+
             val entries = IColors.alphacolors.entries
             val newAlphaColors = HashMap<String, String>()
             for (entry in entries) {

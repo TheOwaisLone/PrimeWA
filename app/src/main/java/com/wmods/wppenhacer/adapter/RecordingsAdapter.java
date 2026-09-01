@@ -122,15 +122,34 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Vi
         Recording recording = recordings.get(position);
         
         // Contact name
-        holder.contactName.setText(recording.getContactName());
+        if (holder.contactName != null) {
+            holder.contactName.setText(recording.getContactName());
+        }
+
+        // App Source Badge (WA vs W4B)
+        if (holder.appSource != null) {
+            if (recording.getAppSource() == Recording.AppSource.WA_BUSINESS) {
+                holder.appSource.setText("💼 W4B");
+                holder.appSource.setTextColor(android.graphics.Color.parseColor("#00BFA5"));
+                holder.appSource.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#2500BFA5")));
+            } else {
+                holder.appSource.setText("💬 WA");
+                holder.appSource.setTextColor(android.graphics.Color.parseColor("#25D366"));
+                holder.appSource.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#2525D366")));
+            }
+        }
 
         // Duration
-        holder.duration.setText(recording.getFormattedDuration());
+        if (holder.duration != null) {
+            holder.duration.setText(recording.getFormattedDuration());
+        }
         
         // Details: size and date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
-        String details = recording.getFormattedSize() + " • " + dateFormat.format(new Date(recording.getDate()));
-        holder.details.setText(details);
+        if (holder.details != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
+            String details = recording.getFormattedSize() + " • " + dateFormat.format(new Date(recording.getDate()));
+            holder.details.setText(details);
+        }
         
         // Selection mode UI
         if (isSelectionMode) {
@@ -178,6 +197,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Vi
         CheckBox checkbox;
         ImageView icon;
         TextView contactName;
+        TextView appSource;
         TextView duration;
         TextView details;
         LinearLayout actionsContainer;
@@ -191,6 +211,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Vi
             checkbox = itemView.findViewById(R.id.checkbox);
             icon = itemView.findViewById(R.id.icon);
             contactName = itemView.findViewById(R.id.contact_name);
+            appSource = itemView.findViewById(R.id.tv_app_source);
             duration = itemView.findViewById(R.id.duration);
             details = itemView.findViewById(R.id.details);
             actionsContainer = itemView.findViewById(R.id.actions_container);

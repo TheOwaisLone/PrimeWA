@@ -4,172 +4,80 @@
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/title_image">
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="imagequality"
-            app:summary="@string/imagequality_sum"
-            app:title="@string/imagequality" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
-        app:title="@string/download_title">
+        app:title="@string/category_storage_locations">
 
         <com.wmods.wppenhacer.preference.FileSelectPreference
-            android:defaultValue="/sdcard/Download"
             app:directory="true"
             app:key="download_local"
+            app:summary="@string/local_download_sum"
             app:title="@string/local_download" />
 
         <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
             app:key="downloadstatus"
-            app:summary="@string/statusdowload_sum"
-            app:title="@string/statusdowload" />
+            app:summary="@string/auto_download_media_sum"
+            app:title="@string/auto_download_media" />
 
         <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
             app:key="downloadviewonce"
-            app:summary="@string/downloadviewonce_sum"
-            app:title="@string/downloadviewonce" />
+            app:summary="@string/unlimited_view_once_media_sum"
+            app:title="@string/unlimited_view_once_media" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="downloadprofile"
+            app:summary="@string/download_profile_pictures_sum"
+            app:title="@string/download_profile_pictures" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/title_video">
+        app:title="@string/category_media_quality">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="videoquality"
+            app:summary="@string/send_high_quality_video_sum"
+            app:title="@string/send_high_quality_video" />
 
         <com.wmods.wppenhacer.preference.FloatSeekBarPreference
-            android:defaultValue="60"
+            app:defaultValue="100.0"
+            app:format="%3.0f MB"
             app:key="video_limit_size"
-            app:maxValue="90"
-            app:minValue="30"
+            app:maxValue="200.0"
+            app:minValue="16.0"
+            app:summary="@string/increase_video_size_limit_sum"
             app:title="@string/increase_video_size_limit"
-            app:valueSpacing="10" />
+            app:valueSpacing="1.0" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="videoquality"
-            app:summary="@string/videoquality_sum"
-            app:title="@string/videoquality" />
+            app:defaultValue="false"
+            app:key="imagequality"
+            app:summary="@string/send_high_quality_photo_sum"
+            app:title="@string/send_high_quality_photo" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:dependency="videoquality"
-            app:key="video_real_resolution"
-            app:summary="@string/send_video_in_real_resolution_sum"
-            app:title="@string/send_video_in_real_resolution" />
+            app:defaultValue="false"
+            app:key="media_preview"
+            app:summary="@string/highres_media_preview_sum"
+            app:title="@string/highres_media_preview" />
 
-        <rikka.material.preference.MaterialSwitchPreference
-            app:dependency="videoquality"
-            app:key="video_maxfps"
-            app:summary="@string/send_video_in_60fps_sum"
-            app:title="@string/send_video_in_60fps" />
     </PreferenceCategory>
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/call_recording_title">
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="call_recording_enable"
-            app:summary="@string/call_recording_enable_sum"
-            app:title="@string/call_recording_enable" />
-
-        <com.wmods.wppenhacer.preference.FileSelectPreference
-            android:defaultValue="/sdcard/Music/WaEnhancer/Recordings"
-            app:dependency="call_recording_enable"
-            app:directory="true"
-            app:key="call_recording_path"
-            app:title="@string/call_recording_path" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:defaultValue="false"
-            app:dependency="call_recording_enable"
-            app:key="call_recording_toast"
-            app:summary="@string/call_recording_toast_summary"
-            app:title="@string/call_recording_toast_title" />
-
-        <Preference
-            app:dependency="call_recording_enable"
-            app:key="call_recording_settings"
-            app:summary="@string/recording_mode_description"
-            app:title="@string/call_recording_settings" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:enabled="false"
-            app:key="video_call_screen_rec"
-            app:summary="@string/coming_soon"
-            app:title="@string/video_call_screen_rec" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
-        app:title="@string/title_audio">
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="disable_sensor_proximity"
-            app:summary="@string/disable_the_proximity_sensor_sum"
-            app:title="@string/disable_the_proximity_sensor" />
-
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="proximity_audios"
-            app:summary="@string/disable_audio_sensor_sum"
-            app:title="@string/disable_audio_sensor" />
+        app:title="@string/category_audio_sensor">
 
         <ListPreference
             android:defaultValue="0"
-            android:entries="@array/audio_type_buttons"
-            android:entryValues="@array/audio_type_values"
-            android:summary="@string/send_audio_as_voice_audio_note_sum"
+            app:entries="@array/audio_type_buttons"
+            app:entryValues="@array/audio_type_values"
             app:key="audio_type"
-            app:title="@string/send_audio_as_voice_audio_note" />
-
-        <com.wmods.wppenhacer.preference.FloatSeekBarPreference
-            android:defaultValue="2"
-            app:key="voicenote_speed"
-            app:maxValue="5"
-            app:minValue="0.1"
-            app:title="@string/voice_note_speed" />
-
-        <rikka.material.preference.MaterialSwitchPreference
-            app:key="audio_transcription"
-            app:summary="@string/audio_transcription_sum"
-            app:title="@string/audio_transcription" />
-
-        <ListPreference
-            android:dependency="audio_transcription"
-            android:defaultValue="assemblyai"
-            android:entries="@array/transcription_provider_entries"
-            android:entryValues="@array/transcription_provider_values"
-            app:key="transcription_provider"
-            app:summary="@string/transcription_provider_sum"
-            app:title="@string/transcription_provider" />
-
-        <EditTextPreference
-            android:dependency="audio_transcription"
-            app:key="assemblyai_key"
-            app:summary="@string/assemblyai_key_sum"
-            app:title="@string/assemblyai_key" />
-
-        <EditTextPreference
-            android:dependency="audio_transcription"
-            app:key="groq_api_key"
-            app:summary="@string/groq_api_key_sum"
-            app:title="@string/groq_api_key" />
+            app:summary="%s"
+            app:title="@string/audio_as_voice" />
 
     </PreferenceCategory>
-
-    <PreferenceCategory
-        app:iconSpaceReserved="false"
-        app:title="@string/other">
-
-        <rikka.material.preference.MaterialSwitchPreference
-            android:defaultValue="true"
-            app:key="media_preview"
-            app:summary="@string/enable_media_preview_sum"
-            app:title="@string/enable_media_preview" />
-
-    </PreferenceCategory>
-
 
 </PreferenceScreen>

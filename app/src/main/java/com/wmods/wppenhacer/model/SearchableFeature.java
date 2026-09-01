@@ -13,14 +13,16 @@ public class SearchableFeature {
 
     public enum Category {
         GENERAL("General"),
-        GENERAL_HOME("General"),
-        GENERAL_HOMESCREEN("General"),
-        GENERAL_CONVERSATION("General"),
+        CONVERSATION("Conversation"),
+        STATUS("Status"),
+        HOME("Home Screen"),
         PRIVACY("Privacy"),
-        MEDIA("Media"),
+        CALLS("Calls"),
         CUSTOMIZATION("Customization"),
+        MEDIA("Media"),
         RECORDINGS("Recordings"),
-        HOME_ACTIONS("Home");
+        MISC("Miscellaneous"),
+        HOME_ACTIONS("Home Actions");
 
         private final String displayName;
 
@@ -34,23 +36,17 @@ public class SearchableFeature {
     }
 
     public enum FragmentType {
-        GENERAL(0),
-        PRIVACY(1),
-        HOME(2),
-        MEDIA(3),
-        CUSTOMIZATION(4),
-        RECORDINGS(5),
-        ACTIVITY(99);
-
-        private final int position;
-
-        FragmentType(int position) {
-            this.position = position;
-        }
-
-        public int getPosition() {
-            return position;
-        }
+        GENERAL,
+        CONVERSATION,
+        STATUS,
+        HOME,
+        PRIVACY,
+        CALLS,
+        CUSTOMIZATION,
+        MEDIA,
+        RECORDINGS,
+        MISC,
+        ACTIVITY;
     }
 
     private final String key;

@@ -41,7 +41,7 @@ class FileReaderPreference @JvmOverloads constructor(
     FilePicker.OnFilePickedListener,
     FilePicker.OnUriPickedListener {
 
-    private val xmlMimeType = arrayOf("text/xml", "application/xml")
+    private val xmlMimeType = arrayOf("text/xml", "application/xml", "text/plain", "*/*")
     private var xmlContent: String? = null
     private var filePath: String? = null
 
@@ -157,9 +157,13 @@ class FileReaderPreference @JvmOverloads constructor(
                 this.xmlContent = content
                 this.filePath = path
 
-                sharedPreferences?.edit()?.putString(key, content)?.apply()
-                summary = path
-                Toast.makeText(context, "XML file loaded successfully", Toast.LENGTH_SHORT).show()
+                sharedPreferences?.edit()
+                    ?.putString(key, content)
+                    ?.putString(key + "_path", path)
+                    ?.apply()
+                val fileName = File(path).name
+                summary = "$fileName\n$path"
+                Toast.makeText(context, "Keybox XML loaded: $fileName", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             Handler(Looper.getMainLooper()).post {
@@ -168,13 +172,28 @@ class FileReaderPreference @JvmOverloads constructor(
         }
     }
 
+    override fun onBindViewHolder(holder: androidx.preference.PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
+        val summaryView = holder.findViewById(android.R.id.summary) as? android.widget.TextView
+        summaryView?.maxLines = 2
+        summaryView?.ellipsize = android.text.TextUtils.TruncateAt.MIDDLE
+    }
+
     private fun init(context: Context) {
         onPreferenceClickListener = this
+        isIconSpaceReserved = false
 
         val savedXml = PreferenceManager.getDefaultSharedPreferences(context).getString(key, null)
-        if (savedXml != null) {
+        val savedPath = PreferenceManager.getDefaultSharedPreferences(context).getString(key + "_path", null)
+        if (savedPath != null) {
+            filePath = savedPath
+            val fileName = File(savedPath).name
+            summary = "$fileName\n$savedPath"
+        } else if (savedXml != null) {
             xmlContent = savedXml
-            summary = if (filePath != null) filePath else "XML content loaded"
+            summary = context.getString(R.string.custom_keybox_file_sum)
+        } else {
+            summary = context.getString(R.string.custom_keybox_file_sum)
         }
     }
 }

@@ -1,42 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <Preference
-        app:fragment="com.wmods.wppenhacer.ui.fragments.GeneralFragment$HomeGeneralPreference"
-        app:iconSpaceReserved="false"
-        app:title="@string/general" />
-
-    <Preference
-        app:fragment="com.wmods.wppenhacer.ui.fragments.GeneralFragment$HomeScreenGeneralPreference"
-        app:iconSpaceReserved="false"
-        app:title="@string/home_screen" />
-
-    <Preference
-        app:fragment="com.wmods.wppenhacer.ui.fragments.GeneralFragment$ConversationGeneralPreference"
-        app:iconSpaceReserved="false"
-        app:title="@string/conversation" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         app:iconSpaceReserved="false"
-        app:title="@string/status">
+        app:title="@string/category_app_settings">
+
+        <ListPreference
+            app:entries="@array/thememode_entries"
+            app:entryValues="@array/thememode_values"
+            app:key="thememode"
+            app:summary="%s"
+            app:title="@string/theme_mode" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="autonext_status"
-            app:summary="@string/disable_auto_status_sum"
-            app:title="@string/disable_auto_status" />
+            app:defaultValue="false"
+            app:key="update_check"
+            app:summary="@string/update_check_sum"
+            app:title="@string/update_check" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="copystatus"
-            app:summary="@string/enable_copy_status_sum"
-            app:title="@string/enable_copy_status" />
+            app:defaultValue="false"
+            app:key="bypass_version_check"
+            app:summary="@string/disable_version_check_sum"
+            app:title="@string/disable_version_check" />
 
         <rikka.material.preference.MaterialSwitchPreference
-            app:key="toast_viewed_status"
-            app:summary="@string/toast_on_viewed_status_sum"
-            app:title="@string/toast_on_viewed_status" />
-
+            app:defaultValue="false"
+            app:key="hide_launcher_icon"
+            app:summary="@string/hide_launcher_icon_sum"
+            app:title="@string/hide_launcher_icon" />
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_time_display">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="ampm"
+            app:title="@string/ampm" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
+            app:key="segundos"
+            app:summary="@string/segundosnahora_sum"
+            app:title="@string/segundosnahora" />
+
+        <EditTextPreference
+            android:defaultValue="[TIME]"
+            app:key="text_in_hour"
+            app:summary="@string/textonahora_sum"
+            app:title="@string/textonahora" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/category_developer_logs">
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="enablelogs"
+            app:title="@string/verbose_logs" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

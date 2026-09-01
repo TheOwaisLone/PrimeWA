@@ -10,11 +10,13 @@ import android.os.ParcelFileDescriptor
 import android.text.TextUtils
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import android.os.Message
 import com.wmods.wppenhacer.xposed.bridge.WaeIIFace
 import com.wmods.wppenhacer.xposed.core.Feature
 import com.wmods.wppenhacer.xposed.core.FeatureLoader
 import com.wmods.wppenhacer.xposed.core.WppCore
 import com.wmods.wppenhacer.xposed.core.components.FMessageWpp
+import com.wmods.wppenhacer.xposed.core.components.WaContactWpp
 import com.wmods.wppenhacer.xposed.core.devkit.Unobfuscator
 import com.wmods.wppenhacer.xposed.utils.Utils
 import de.robv.android.xposed.XC_MethodHook
@@ -66,6 +68,9 @@ class CallRecording(
         }
 
         logDebug("WaEnhancer: Call Recording feature initializing...")
+        if (prefs.getBoolean("call_recording_use_root", false)) {
+            grantVoiceCallPermission()
+        }
         hookCallStateChanges()
     }
 
@@ -102,7 +107,7 @@ class CallRecording(
                     "soundPortCreated",
                     object : XC_MethodHook() {
                         override fun afterHookedMethod(param: MethodHookParam) {
-                            logDebug("WaEnhancer: soundPortCreated - will record after 3s")
+                            logDebug("WaEnhancer: soundPortCreated - will record after 4s (allowing VoIP audio to settle)")
                             extractUserJid(param.thisObject)
                             isCallConnected.set(true)
                             scheduleDelayedStart()
@@ -129,6 +134,23 @@ class CallRecording(
 
                 XposedBridge.hookAllMethods(
                     voipActivityClass,
+                    "onCreate",
+                    object : XC_MethodHook() {
+                        override fun afterHookedMethod(param: MethodHookParam) {
+                            val activity = param.thisObject as? Activity ?: return
+                            val intent = activity.intent ?: return
+                            val jidStr = intent.getStringExtra("jid")
+                                ?: intent.getStringExtra("peer_jid")
+                                ?: intent.getStringExtra("contact")
+                            if (!jidStr.isNullOrEmpty()) {
+                                setCurrentUserJid(jidStr, "VoipActivity.onCreate")
+                            }
+                        }
+                    }
+                )
+
+                XposedBridge.hookAllMethods(
+                    voipActivityClass,
                     "onDestroy",
                     object : XC_MethodHook() {
                         override fun beforeHookedMethod(param: MethodHookParam) {
@@ -140,6 +162,32 @@ class CallRecording(
             }
         } catch (e: Throwable) {
             logDebug("WaEnhancer: Could not hook VoipActivity: ${e.message}")
+        }
+
+        try {
+            val onCallReceivedMethod = Unobfuscator.loadAntiRevokeOnCallReceivedMethod(classLoader)
+            XposedBridge.hookMethod(onCallReceivedMethod, object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    val callInfoClass = WppCore.voipCallInfoClass
+                    val callinfo: Any? = when {
+                        param.args.isNotEmpty() && param.args[0] is Message -> (param.args[0] as Message).obj
+                        param.args.size > 1 && callInfoClass.isInstance(param.args[1]) -> param.args[1]
+                        else -> null
+                    }
+                    if (callinfo == null || !callInfoClass.isInstance(callinfo)) return
+                    val peerJid = runCatching {
+                        XposedHelpers.callMethod(callinfo, "getPeerJid")
+                    }.getOrNull() ?: runCatching {
+                        XposedHelpers.getObjectField(callinfo, "peerJid")
+                    }.getOrNull()
+                    if (peerJid != null) {
+                        setCurrentUserJid(peerJid, "onCallReceivedMethod")
+                    }
+                }
+            })
+            hooksInstalled++
+        } catch (e: Throwable) {
+            logDebug("WaEnhancer: Could not hook onCallReceivedMethod: ${e.message}")
         }
 
         logDebug("WaEnhancer: Call Recording initialized with $hooksInstalled hooks")
@@ -170,7 +218,7 @@ class CallRecording(
                 startRecording()
             }
 
-            val future = delayedStartScheduler.schedule(task, 3, TimeUnit.SECONDS)
+            val future = delayedStartScheduler.schedule(task, 4, TimeUnit.SECONDS)
 
             delayedStartFuture.set(future)
         } catch (e: Throwable) {
@@ -186,23 +234,35 @@ class CallRecording(
         if (callback == null) return
 
         try {
-            val callInfo = XposedHelpers.callMethod(callback, "getCallInfo") ?: return
+            val callInfo = runCatching {
+                XposedHelpers.callMethod(callback, "getCallInfo")
+            }.getOrNull() ?: runCatching {
+                XposedHelpers.getObjectField(callback, "callInfo")
+            }.getOrNull() ?: return
 
             val peerJid = runCatching {
+                XposedHelpers.callMethod(callInfo, "getPeerJid")
+            }.getOrNull() ?: runCatching {
                 XposedHelpers.getObjectField(callInfo, "peerJid")
+            }.getOrNull() ?: runCatching {
+                XposedHelpers.callMethod(callInfo, "getInitialPeerJid")
+            }.getOrNull() ?: runCatching {
+                XposedHelpers.getObjectField(callInfo, "initialPeerJid")
             }.getOrNull()
 
-            if (peerJid != null && setCurrentUserJid(peerJid, "UserJid")) {
+            if (peerJid != null && setCurrentUserJid(peerJid, "peerJid")) {
                 return
             }
 
             val participantsObj = runCatching {
+                XposedHelpers.callMethod(callInfo, "getParticipants")
+            }.getOrNull() ?: runCatching {
                 XposedHelpers.getObjectField(callInfo, "participants")
             }.getOrNull()
 
             if (participantsObj is Map<*, *>) {
                 for (key in participantsObj.keys) {
-                    if (key != null && setCurrentUserJid(key, "single participant")) {
+                    if (key != null && setCurrentUserJid(key, "participant")) {
                         return
                     }
                 }
@@ -224,32 +284,31 @@ class CallRecording(
     private fun grantVoiceCallPermission() {
         if (permissionGranted.get()) return
 
-        try {
-            val app = FeatureLoader.mApp ?: run {
-                logDebug("WaEnhancer: Could not grant permissions, app context is null")
-                return
-            }
-            val packageName = app.packageName
-            logDebug("WaEnhancer: Granting CAPTURE_AUDIO_OUTPUT via root")
+        Executors.newSingleThreadExecutor().execute {
+            try {
+                val app = FeatureLoader.mApp ?: return@execute
+                val packageName = app.packageName
+                logDebug("WaEnhancer: Granting CAPTURE_AUDIO_OUTPUT via root in background")
 
-            val commands = arrayOf(
-                "pm grant $packageName android.permission.CAPTURE_AUDIO_OUTPUT",
-                "appops set $packageName RECORD_AUDIO allow"
-            )
+                val commands = arrayOf(
+                    "pm grant $packageName android.permission.CAPTURE_AUDIO_OUTPUT",
+                    "appops set $packageName RECORD_AUDIO allow"
+                )
 
-            for (cmd in commands) {
-                try {
-                    val process = Runtime.getRuntime().exec(arrayOf("su", "-c", cmd))
-                    val exitCode = process.waitFor()
-                    logDebug("WaEnhancer: $cmd exit: $exitCode")
-                } catch (e: Exception) {
-                    logDebug("WaEnhancer: Root failed: ${e.message}")
+                for (cmd in commands) {
+                    try {
+                        val process = Runtime.getRuntime().exec(arrayOf("su", "-c", cmd))
+                        val exitCode = process.waitFor()
+                        logDebug("WaEnhancer: $cmd exit: $exitCode")
+                    } catch (e: Exception) {
+                        logDebug("WaEnhancer: Root failed: ${e.message}")
+                    }
                 }
-            }
 
-            permissionGranted.set(true)
-        } catch (e: Throwable) {
-            logDebug("WaEnhancer: grantVoiceCallPermission error: ${e.message}")
+                permissionGranted.set(true)
+            } catch (e: Throwable) {
+                logDebug("WaEnhancer: grantVoiceCallPermission error: ${e.message}")
+            }
         }
     }
 
@@ -289,44 +348,57 @@ class CallRecording(
             }.getOrNull()
 
             val packageName = app.packageName
-            val appName = if (packageName.contains("w4b")) "WA Business" else "WhatsApp"
-            val defaultPath = Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                .absolutePath
-            val settingsPath = prefs.getString("call_recording_path", defaultPath) ?: defaultPath
+            val isBusiness = packageName.contains("w4b")
+            val subfolderName = if (isBusiness) "WA Business" else "WhatsApp"
+            val appTag = if (isBusiness) "W4B" else "WA"
 
-            val parentDir = File(settingsPath, "WA Call Recordings")
-            val appDir = File(parentDir, appName)
-            ensureOutputDirectory(appDir, bridge)
+            val defaultBasePath = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                "WA Call Recordings"
+            ).absolutePath
+            val selectedBasePath = prefs.getString("call_recording_path", null)?.takeIf { it.isNotBlank() } ?: defaultBasePath
+
+            // Create WhatsApp or WA Business subfolder directly inside user-selected folder
+            val targetDir = File(selectedBasePath, subfolderName)
+            ensureOutputDirectory(targetDir, bridge)
 
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-            val fileName = buildFileName(cUserJid, timestamp)
-            val outputTarget = openOutputTarget(bridge, appDir, fileName)
+            val fileName = buildFileName(cUserJid, timestamp, appTag)
+            val outputTarget = openOutputTarget(bridge, targetDir, fileName)
 
             outputFileRef.set(outputTarget.file)
             outputPfdRef.set(outputTarget.parcelFileDescriptor)
             outputStreamRef.set(outputTarget.outputStream)
 
-            if (prefs.getBoolean("call_recording_use_root", false)) {
-                grantVoiceCallPermission()
-            }
+            val useRoot = prefs.getBoolean("call_recording_use_root", false)
+            val audioSources: IntArray
+            val sourceNames: Array<String>
 
-            val audioSources = intArrayOf(
-                MediaRecorder.AudioSource.VOICE_CALL,
-                MediaRecorder.AudioSource.VOICE_UPLINK,
-                MediaRecorder.AudioSource.VOICE_DOWNLINK,
-                6,
-                MediaRecorder.AudioSource.VOICE_COMMUNICATION,
-                MediaRecorder.AudioSource.MIC
-            )
-            val sourceNames = arrayOf(
-                "VOICE_CALL",
-                "VOICE_UPLINK",
-                "VOICE_DOWNLINK",
-                "VOICE_RECOGNITION",
-                "VOICE_COMMUNICATION",
-                "MIC"
-            )
+            if (useRoot) {
+                // In Root mode with CAPTURE_AUDIO_OUTPUT:
+                // Prioritize standard concurrent capture first, with VOICE_COMMUNICATION as fallback
+                audioSources = intArrayOf(
+                    MediaRecorder.AudioSource.MIC,
+                    6, // VOICE_RECOGNITION
+                    MediaRecorder.AudioSource.VOICE_COMMUNICATION
+                )
+                sourceNames = arrayOf(
+                    "MIC",
+                    "VOICE_RECOGNITION",
+                    "VOICE_COMMUNICATION"
+                )
+            } else {
+                // In Standard non-root mode:
+                // Use concurrent-safe audio capture sources that never preempt or reset WhatsApp's VoIP HAL
+                audioSources = intArrayOf(
+                    MediaRecorder.AudioSource.MIC,
+                    6 // VOICE_RECOGNITION
+                )
+                sourceNames = arrayOf(
+                    "MIC",
+                    "VOICE_RECOGNITION"
+                )
+            }
 
             val recorderSelection = createStartedRecorder(audioSources, sourceNames, outputTarget.fd)
             if (recorderSelection == null) {
@@ -358,36 +430,43 @@ class CallRecording(
         }
     }
 
-    private fun ensureOutputDirectory(appDir: File, bridge: WaeIIFace?) {
-        if (appDir.exists()) return
-
-        if (appDir.mkdirs() || appDir.exists()) return
+    private fun ensureOutputDirectory(dir: File, bridge: WaeIIFace?) {
+        if (dir.exists()) return
 
         if (bridge != null) {
             val dirCreated = runCatching {
-                bridge.createDir(appDir.absolutePath)
+                bridge.createDir(dir.absolutePath)
             }.getOrDefault(false)
 
-            if (dirCreated || appDir.exists()) return
+            if (dirCreated || dir.exists()) return
         }
 
-        logDebug("WaEnhancer: Could not create preferred output directory, fallback may be used: ${appDir.absolutePath}")
+        dir.mkdirs()
     }
 
-    private fun buildFileName(userJid: FMessageWpp.UserJid?, timestamp: String): String {
-        if (userJid == null) return "Call_$timestamp.m4a"
+    private fun buildFileName(userJid: FMessageWpp.UserJid?, timestamp: String, appTag: String): String {
+        if (userJid == null || userJid.isNull) return "Call_${appTag}_$timestamp.m4a"
 
-        val contactName = runCatching {
-            WppCore.getContactName(userJid)
+        val waContact = runCatching {
+            WaContactWpp.getWaContactFromJid(userJid)
         }.getOrNull()
 
-        val identifier = if (contactName.isNullOrEmpty()) {
-            userJid.phoneNumber
-        } else {
-            contactName
+        val contactName = waContact?.displayName?.takeIf { it.isNotBlank() }
+            ?: runCatching { WppCore.getContactName(userJid) }.getOrNull()?.takeIf { it != "Whatsapp Contact" && it.isNotBlank() }
+            ?: runCatching { WppCore.getSContactName(userJid, false) }.getOrNull()?.takeIf { it.isNotBlank() }
+
+        val phoneNumber = userJid.phoneNumber?.trim()
+
+        val identifier = when {
+            !contactName.isNullOrEmpty() && !phoneNumber.isNullOrEmpty() && !contactName.equals(phoneNumber, ignoreCase = true) -> {
+                "$contactName ($phoneNumber)"
+            }
+            !contactName.isNullOrEmpty() -> contactName
+            !phoneNumber.isNullOrEmpty() -> phoneNumber
+            else -> "Unknown"
         }
 
-        return "Call_${sanitizeFileNamePart(identifier)}_$timestamp.m4a"
+        return "Call_${appTag}_${sanitizeFileNamePart(identifier)}_$timestamp.m4a"
     }
 
     private fun sanitizeFileNamePart(value: String?): String {
@@ -406,27 +485,36 @@ class CallRecording(
     ): RecorderSelection? {
         for (i in audioSources.indices) {
             val testRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                MediaRecorder(Utils.application)
+                val appCtx = Utils.application ?: FeatureLoader.mApp
+                if (appCtx != null) MediaRecorder(appCtx) else @Suppress("DEPRECATION") MediaRecorder()
             } else {
                 @Suppress("DEPRECATION")
                 MediaRecorder()
             }
 
             try {
-                logDebug("WaEnhancer: Trying ${sourceNames[i]}")
+                logDebug("WaEnhancer: Trying audio source ${sourceNames[i]}")
                 testRecorder.setAudioSource(audioSources[i])
                 testRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
                 testRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
                 testRecorder.setAudioEncodingBitRate(96000)
                 testRecorder.setAudioSamplingRate(44100)
                 testRecorder.setOutputFile(outputFd)
+
+                testRecorder.setOnErrorListener { _, what, extra ->
+                    logDebug("WaEnhancer: MediaRecorder error: what=$what, extra=$extra")
+                }
+                testRecorder.setOnInfoListener { _, what, extra ->
+                    logDebug("WaEnhancer: MediaRecorder info: what=$what, extra=$extra")
+                }
+
                 testRecorder.prepare()
                 testRecorder.start()
 
-                logDebug("WaEnhancer: SUCCESS ${sourceNames[i]}")
+                logDebug("WaEnhancer: SUCCESS audio source ${sourceNames[i]}")
                 return RecorderSelection(testRecorder, sourceNames[i])
             } catch (e: Exception) {
-                logDebug("WaEnhancer: FAILED ${sourceNames[i]}: ${e.message}")
+                logDebug("WaEnhancer: FAILED audio source ${sourceNames[i]}: ${e.message}")
                 releaseRecorder(testRecorder, stopBeforeRelease = false)
             }
         }

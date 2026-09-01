@@ -33,12 +33,12 @@ android {
         create("business") {
             dimension = "version"
             applicationIdSuffix = ".w4b"
-            resValue("string", "app_name", "Wa Enhancer Business")
+            resValue("string", "app_name", "PrimeWA Business")
         }
     }
 
     defaultConfig {
-        applicationId = "com.wmods.wppenhacer"
+        applicationId = "com.owais.primewa"
         minSdk = 28
         //noinspection OldTargetApi
         targetSdk = 34
@@ -182,6 +182,7 @@ dependencies {
     implementation(libs.arscblamer)
     implementation(libs.markwon.core)
     implementation(libs.remote.preferences)
+    implementation(libs.play.services.ads)
 }
 
 

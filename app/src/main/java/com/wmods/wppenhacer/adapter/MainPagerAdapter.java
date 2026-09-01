@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.wmods.wppenhacer.ui.fragments.CustomizationFragment;
+import com.wmods.wppenhacer.ui.fragments.FeaturesHubFragment;
 import com.wmods.wppenhacer.ui.fragments.GeneralFragment;
 import com.wmods.wppenhacer.ui.fragments.HomeFragment;
 import com.wmods.wppenhacer.ui.fragments.MediaFragment;
@@ -27,17 +28,19 @@ public class MainPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         return switch (position) {
-            case 0 -> new GeneralFragment();
+            case 0 -> new FeaturesHubFragment();
             case 1 -> new PrivacyFragment();
-            case 3 -> new MediaFragment();
-            case 4 -> new CustomizationFragment();
+            case 2 -> new CustomizationFragment();
+            case 3 -> new GeneralFragment();
+            case 4 -> new MediaFragment();
             case 5 -> new RecordingsFragment();
-            default -> new HomeFragment();
+            case 6 -> new HomeFragment();
+            default -> new FeaturesHubFragment();
         };
     }
 
     @Override
     public int getItemCount() {
-        return isRecordingEnabled ? 6 : 5;
+        return isRecordingEnabled ? 7 : 6;
     }
 }

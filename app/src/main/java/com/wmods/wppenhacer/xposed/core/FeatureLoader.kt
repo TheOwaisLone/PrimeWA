@@ -110,6 +110,9 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+import com.wmods.wppenhacer.xposed.features.general.ScheduledMessages
+import com.wmods.wppenhacer.xposed.features.others.ChatAnalytics
+
 class FeatureLoader {
 
     companion object {
@@ -559,7 +562,9 @@ class FeatureLoader {
                 BackupRestore::class.java,
                 JumpFirstMessage::class.java,
                 AboutContactPicker::class.java,
-                DefaultEmoji::class.java
+                DefaultEmoji::class.java,
+                ChatAnalytics::class.java,
+                ScheduledMessages::class.java
             )
 
             XposedBridge.log("Loading Plugins")

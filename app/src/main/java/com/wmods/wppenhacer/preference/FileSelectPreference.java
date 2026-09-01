@@ -107,21 +107,18 @@ public class FileSelectPreference extends Preference implements Preference.OnPre
     }
 
     private void showSelectDirectoryDialog() {
-
-        DialogProperties properties = new DialogProperties();
-        properties.selection_mode = DialogConfigs.SINGLE_MODE;
-        properties.selection_type = DialogConfigs.DIR_SELECT;
-        properties.root = new File(DialogConfigs.DEFAULT_DIR);
-        properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
-        properties.offset = new File(DialogConfigs.DEFAULT_DIR);
-        FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-        dialog.setTitle("Select a local to download");
-        dialog.setDialogSelectionListener((selectionPaths) -> {
-            getSharedPreferences().edit().putString(getKey(), selectionPaths[0]).apply();
-            setSummary(selectionPaths[0]);
-        });
-        dialog.show();
-        Utils.showToast("Select a local to download", Toast.LENGTH_SHORT);
+        String savedPath = getSharedPreferences().getString(getKey(), null);
+        new com.wmods.wppenhacer.ui.dialogs.FolderPickerDialog(
+                getContext(),
+                savedPath,
+                "Select Download Folder",
+                (selectedDir) -> {
+                    String path = selectedDir.getAbsolutePath();
+                    getSharedPreferences().edit().putString(getKey(), path).apply();
+                    setSummary(path);
+                    return kotlin.Unit.INSTANCE;
+                }
+        ).show();
     }
 
     @Override

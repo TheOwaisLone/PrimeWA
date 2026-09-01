@@ -1,10 +1,12 @@
 | **English** | [Português(Brasil)](README.pt-BR.md)
 
-# WaEnhancer
+# PrimeWA (WaEnhancer Fork)
 <div align="center">
-  <p><strong>WaEnhancer is an Xposed module that enhances your WhatsApp experience.</strong></p>
+  <p><strong>PrimeWA is an enhanced Xposed module providing advanced privacy, media tools, and customization for WhatsApp.</strong></p>
+  <p><em>Forked &amp; Redesigned by Owais • Based on WaEnhancer by Dev4Mod &amp; Contributors</em></p>
   <p><strong>Warning:</strong> This module is intended for educational purposes only, you may have problems with your WhatsApp account, risk of banning! Use it at your own risk.</p>
-  <p>Please note that this project is currently in development, so bugs and crashes may occur. If you encounter any issues report them in our group or create an <a href="https://github.com/Dev4Mod/WaEnhancer/issues">issue</a> here.</p>
+  <p><strong>PrimeWA Repository:</strong> <a href="https://github.com/TheOwaisLone/PrimeWA">github.com/TheOwaisLone/PrimeWA</a> | <strong>Telegram:</strong> <a href="https://t.me/primewa">t.me/primewa</a></p>
+  <p><strong>Original Project (WaEnhancer):</strong> <a href="https://github.com/Dev4Mod/WaEnhancer">github.com/Dev4Mod/WaEnhancer</a> | <strong>Telegram:</strong> <a href="https://t.me/waenhancer">t.me/waenhancer</a></p>
 </div>
 
 ---
@@ -162,8 +164,9 @@ All modifications are made dynamically in the memory of the user's own device th
 4. Install the WaEnhancer APK.
 5. Enable the WaEnhancer module in the Xposed Installer app.
 
-## Support
-If you encounter any issues or have questions about WaEnhancer, please [Visit Telegram](https://t.me/waenhancer).
+## Support & Channels
+* **PrimeWA Community:** [Visit PrimeWA Telegram](https://t.me/primewa)
+* **Original Project Support:** [Visit WaEnhancer Telegram](https://t.me/waenhancer)
 
 ## License & Copyright Warning
 This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)** - see the [LICENSE](LICENSE) file for details.
@@ -179,14 +182,4 @@ This is a strong copyleft open-source license. Any derivative works, forks, or s
 
 ---
 
-**Note**: Please use WaEnhancer responsibly and in compliance with the terms and conditions of the apps you are modifying. Misuse of this tool may lead to legal consequences.
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=Dev4Mod%2FWaEnhancer&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Dev4Mod/WaEnhancer&type=date&theme=dark&legend=top-left&sealed_token=b1vTkmTYcAchBg96D5ulWNcOZFMvWeja0ogdKKalbAhLtvENQuovfDbpmDQZtMgFuxyeRseQRD6nPsU9tgT5vGKWbU_1OHCsXyFPoRSDwMChEZVMCkQ14dI5m6rSPZ-iMzp_4VSp_7J5CLtEOUKP_1b2e7vbNLGh98-LMTBjsY8w3-YgoaZSDzwxzS4u" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Dev4Mod/WaEnhancer&type=date&legend=top-left&sealed_token=b1vTkmTYcAchBg96D5ulWNcOZFMvWeja0ogdKKalbAhLtvENQuovfDbpmDQZtMgFuxyeRseQRD6nPsU9tgT5vGKWbU_1OHCsXyFPoRSDwMChEZVMCkQ14dI5m6rSPZ-iMzp_4VSp_7J5CLtEOUKP_1b2e7vbNLGh98-LMTBjsY8w3-YgoaZSDzwxzS4u" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Dev4Mod/WaEnhancer&type=date&legend=top-left&sealed_token=b1vTkmTYcAchBg96D5ulWNcOZFMvWeja0ogdKKalbAhLtvENQuovfDbpmDQZtMgFuxyeRseQRD6nPsU9tgT5vGKWbU_1OHCsXyFPoRSDwMChEZVMCkQ14dI5m6rSPZ-iMzp_4VSp_7J5CLtEOUKP_1b2e7vbNLGh98-LMTBjsY8w3-YgoaZSDzwxzS4u" />
- </picture>
-</a>
+**Note**: Please use PrimeWA responsibly and in compliance with the terms and conditions of the apps you are modifying. Misuse of this tool may lead to legal consequences.
