@@ -24,5 +24,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Wa Enhancer"
+rootProject.name = "PrimeWA"
 include(":app")

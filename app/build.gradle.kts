@@ -137,8 +137,8 @@ android {
 androidComponents {
     onVariants { variant ->
         val appName = when (variant.flavorName) {
-            "business" -> "WaEnhancer-Business"
-            else -> "WaEnhancer"
+            "business" -> "PrimeWA-Business"
+            else -> "PrimeWA"
         }
         variant.outputs.forEach { output ->
             (output as VariantOutputImpl).outputFileName.set("$appName-1.5.5 ($gitHash).apk")
