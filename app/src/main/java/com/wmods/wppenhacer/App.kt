@@ -40,7 +40,6 @@ class App : Application() {
             val hideLauncher = sharedPreferences.getBoolean("hide_launcher_icon", false)
             setLauncherIconHidden(this, hideLauncher)
             changeLanguage(this)
-            com.wmods.wppenhacer.ads.AdHelper.initialize(this)
         } catch (e: Exception) {
             Utils.showToast("[PREFS] Error accessing app data: ${e.message}")
         }

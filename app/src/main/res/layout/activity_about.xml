@@ -221,13 +221,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <FrameLayout
-                android:id="@+id/nativeAdContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
-                android:visibility="gone" />
-
             <com.google.android.material.card.MaterialCardView
                 style="@style/CardInfoStyle"
                 android:layout_width="match_parent"

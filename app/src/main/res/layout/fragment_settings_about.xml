@@ -339,14 +339,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4. Native Ad Container -->
-            <FrameLayout
-                android:id="@+id/nativeAdContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:visibility="gone" />
-
             <!-- 5. Preferences & Backup Tools Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

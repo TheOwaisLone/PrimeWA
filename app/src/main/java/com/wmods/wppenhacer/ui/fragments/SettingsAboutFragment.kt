@@ -24,7 +24,6 @@ import com.wmods.wppenhacer.App
 import com.wmods.wppenhacer.BuildConfig
 import com.wmods.wppenhacer.R
 import com.wmods.wppenhacer.adapter.LogLineAdapter
-import com.wmods.wppenhacer.ads.AdHelper
 import com.wmods.wppenhacer.databinding.DialogDiagnosticsLogBinding
 import com.wmods.wppenhacer.databinding.FragmentSettingsAboutBinding
 import com.wmods.wppenhacer.utils.FilePicker
@@ -115,11 +114,6 @@ class SettingsAboutFragment : Fragment() {
 
         binding.btnDisclaimer.setOnClickListener {
             com.wmods.wppenhacer.utils.LegalDisclaimerDialog.show(requireActivity())
-        }
-
-        // Load Native Ad
-        context?.let { ctx ->
-            AdHelper.loadNativeAd(ctx, binding.nativeAdContainer)
         }
 
         // Export Preferences

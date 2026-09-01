@@ -43,11 +43,9 @@ public class AboutActivity extends BaseActivity {
         ActivityAboutBinding binding = ActivityAboutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.btnTelegramPrime.setOnClickListener(v -> openUrl("https://t.me/primewa"));
-        binding.btnGithubPrime.setOnClickListener(view -> openUrl("https://github.com/owais/prime-wa"));
+        binding.btnGithubPrime.setOnClickListener(view -> openUrl("https://github.com/TheOwaisLone/PrimeWA"));
         binding.btnTelegramUpstream.setOnClickListener(v -> openUrl("https://t.me/waenhancer"));
         binding.btnGithubUpstream.setOnClickListener(view -> openUrl("https://github.com/Dev4Mod/WaEnhancer"));
-
-        com.wmods.wppenhacer.ads.AdHelper.loadNativeAd(this, binding.nativeAdContainer);
 
         int topMargin = getResources().getDimensionPixelSize(R.dimen.spacing_small);
         for (int i = 0; i < CONTRIBUTORS.length; i++) {

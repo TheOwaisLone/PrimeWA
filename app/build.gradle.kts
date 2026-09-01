@@ -182,7 +182,6 @@ dependencies {
     implementation(libs.arscblamer)
     implementation(libs.markwon.core)
     implementation(libs.remote.preferences)
-    implementation(libs.play.services.ads)
 }
 
 

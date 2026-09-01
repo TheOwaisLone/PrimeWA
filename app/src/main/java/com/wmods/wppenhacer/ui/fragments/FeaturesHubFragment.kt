@@ -95,18 +95,15 @@ class FeaturesHubFragment : Fragment() {
         }
 
         // Format supported version ranges cleanly
-        activity?.let { act ->
+        context?.let { ctx ->
             if (App.isOriginalPackage) {
-                val wppVersions = act.resources.getStringArray(R.array.supported_versions_wpp)
+                val wppVersions = ctx.resources.getStringArray(R.array.supported_versions_wpp)
                 binding.listWpp.text = "WhatsApp: ${formatVersionRange(wppVersions)}"
             } else {
                 binding.listWpp.visibility = View.GONE
             }
-            val bizVersions = act.resources.getStringArray(R.array.supported_versions_business)
+            val bizVersions = ctx.resources.getStringArray(R.array.supported_versions_business)
             binding.listBusiness.text = "Business: ${formatVersionRange(bizVersions)}"
-
-            // Load Native Ad
-            com.wmods.wppenhacer.ads.AdHelper.loadNativeAd(act, binding.nativeAdContainer)
         }
 
         updateModuleStatusUI()
