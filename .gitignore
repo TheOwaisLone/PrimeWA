@@ -9,11 +9,12 @@
 .cxx
 local.properties
 key.jks
+*.jks
+*.keystore
 key_base64.txt
 /app/.project
 .kotlin/
 __pycache__/
 *.pyc
 generate_icon.py
-primewa_icon*.png
 Admob.md

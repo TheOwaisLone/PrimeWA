@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Locale
+import java.util.Properties
 import kotlin.time.Duration.Companion.milliseconds
 
 plugins {
@@ -34,12 +35,32 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         signingConfigs.create("config") {
-            val androidStoreFile = project.findProperty("androidStoreFile") as String?
-            if (!androidStoreFile.isNullOrEmpty()) {
-                storeFile = rootProject.file(androidStoreFile)
-                storePassword = project.property("androidStorePassword") as String
-                keyAlias = project.property("androidKeyAlias") as String
-                keyPassword = project.property("androidKeyPassword") as String
+            val localProps = Properties()
+            val localPropsFile = rootProject.file("local.properties")
+            if (localPropsFile.exists()) {
+                localProps.load(localPropsFile.inputStream())
+            }
+
+            val keystorePath = System.getenv("KEYSTORE_FILE")
+                ?: localProps.getProperty("RELEASE_STORE_FILE")
+                ?: (project.findProperty("androidStoreFile") as String?)
+                ?: "Owais.jks"
+            val kStoreFile = rootProject.file(keystorePath)
+
+            if (kStoreFile.exists()) {
+                storeFile = kStoreFile
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    ?: localProps.getProperty("RELEASE_STORE_PASSWORD")
+                    ?: (project.findProperty("androidStorePassword") as String?)
+                    ?: "Common@92"
+                keyAlias = System.getenv("KEY_ALIAS")
+                    ?: localProps.getProperty("RELEASE_KEY_ALIAS")
+                    ?: (project.findProperty("androidKeyAlias") as String?)
+                    ?: "owais"
+                keyPassword = System.getenv("KEY_PASSWORD")
+                    ?: localProps.getProperty("RELEASE_KEY_PASSWORD")
+                    ?: (project.findProperty("androidKeyPassword") as String?)
+                    ?: "Common@92"
             }
         }
 

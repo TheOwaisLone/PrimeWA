@@ -1,9 +1,12 @@
-# PrimeWA 🚀
-
 <div align="center">
 
-<img src="primewa_icon.png" width="128" height="128" alt="PrimeWA Logo" style="border-radius: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+<img src="banner.png" width="100%" alt="PrimeWA Banner" style="border-radius: 16px; margin-bottom: 16px;" />
 
+<br/>
+
+<img src="primewa_icon.png" width="110" height="110" alt="PrimeWA Logo" style="border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+
+# PrimeWA 🚀
 ### The Ultimate Material 3 Enhancement &amp; Privacy Suite for WhatsApp
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
