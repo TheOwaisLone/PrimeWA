@@ -22,21 +22,6 @@ android {
     compileSdk = 37
     ndkVersion = "28.2.13676358"
 
-    flavorDimensions += "version"
-
-    productFlavors {
-        create("whatsapp") {
-            dimension = "version"
-            applicationIdSuffix = ""
-            isDefault = true
-        }
-        create("business") {
-            dimension = "version"
-            applicationIdSuffix = ".w4b"
-            resValue("string", "app_name", "PrimeWA Business")
-        }
-    }
-
     defaultConfig {
         applicationId = "com.owais.primewa"
         minSdk = 28
@@ -136,12 +121,8 @@ android {
 
 androidComponents {
     onVariants { variant ->
-        val appName = when (variant.flavorName) {
-            "business" -> "PrimeWA-Business"
-            else -> "PrimeWA"
-        }
         variant.outputs.forEach { output ->
-            (output as VariantOutputImpl).outputFileName.set("$appName-1.5.5 ($gitHash).apk")
+            (output as VariantOutputImpl).outputFileName.set("PrimeWA-1.5.5 ($gitHash).apk")
         }
     }
 }
