@@ -204,8 +204,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     return Color.parseColor("#E53935"); // Red
                 case MISC:
                     return Color.parseColor("#6D4C41"); // Brown
+                case SETTINGS:
                 case HOME_ACTIONS:
-                    return Color.parseColor("#546E7A"); // Slate Blue
+                    return Color.parseColor("#00897B"); // Modern Teal
                 default:
                     return Color.parseColor("#757575"); // Grey
             }

@@ -89,11 +89,40 @@ class App : Application() {
                 getString(R.string.device_model) + ": " + deviceModel
     }
 
-    fun restartApp(packageWpp: String) {
+    fun restartApp(packageWpp: String, launchAfterRestart: Boolean = true) {
+        // 1. Send Xposed in-process restart broadcast (works non-root via LSPosed hook)
         val intent = Intent(BuildConfig.APPLICATION_ID + ".WHATSAPP.RESTART").apply {
             putExtra("PKG", packageWpp)
         }
         sendBroadcast(intent)
+
+        // 2. Direct Root force-stop + relaunch if enabled
+        val prefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
+        val allowRoot = prefs.getBoolean("direct_root_restart", true)
+
+        java.util.concurrent.Executors.newSingleThreadExecutor().execute {
+            if (allowRoot) {
+                try {
+                    val p = Runtime.getRuntime().exec(arrayOf("su", "-c", "am force-stop $packageWpp"))
+                    p.waitFor()
+                } catch (e: Exception) {
+                    android.util.Log.d("PrimeWA", "Root restart not available or denied: ${e.message}")
+                }
+            }
+
+            if (launchAfterRestart) {
+                try {
+                    Thread.sleep(400)
+                    val launchIntent = packageManager.getLaunchIntentForPackage(packageWpp)
+                    if (launchIntent != null) {
+                        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(launchIntent)
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("PrimeWA", "Failed to relaunch $packageWpp", e)
+                }
+            }
+        }
     }
 
     companion object {

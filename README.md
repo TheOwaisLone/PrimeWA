@@ -2,9 +2,9 @@
 
 <div align="center">
 
-![PrimeWA Banner](app/src/main/res/mipmap-xxxhdpi/launcher.png)
+<img src="primewa_icon.png" width="128" height="128" alt="PrimeWA Logo" style="border-radius: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
 
-### The Ultimate Material 3 Enhancement & Privacy Suite for WhatsApp
+### The Ultimate Material 3 Enhancement &amp; Privacy Suite for WhatsApp
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%209.0%2B-green.svg)](https://android.com)

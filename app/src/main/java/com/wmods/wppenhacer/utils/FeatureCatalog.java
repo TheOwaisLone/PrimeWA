@@ -64,14 +64,6 @@ public class FeatureCatalog {
     }
 
     private static void addGeneralFeatures(Context context, List<SearchableFeature> catalog) {
-        catalog.add(new SearchableFeature("thememode",
-                context.getString(R.string.theme_mode),
-                context.getString(R.string.theme_mode_sum),
-                SearchableFeature.Category.GENERAL,
-                SearchableFeature.FragmentType.GENERAL,
-                null,
-                Arrays.asList("dark", "light", "theme")));
-
         catalog.add(new SearchableFeature("update_check",
                 context.getString(R.string.update_check),
                 context.getString(R.string.update_check_sum),
@@ -1162,36 +1154,36 @@ public class FeatureCatalog {
     }
 
     private static void addHomeActions(Context context, List<SearchableFeature> catalog) {
-        // Home Fragment Actions
+        // Settings & About Actions
         catalog.add(new SearchableFeature("export_config",
                 context.getString(R.string.export_settings),
                 context.getString(R.string.backup_settings),
-                SearchableFeature.Category.HOME_ACTIONS,
-                SearchableFeature.FragmentType.HOME,
+                SearchableFeature.Category.SETTINGS,
+                SearchableFeature.FragmentType.SETTINGS_ABOUT,
                 null,
                 Arrays.asList("export", "backup", "settings", "config")));
 
         catalog.add(new SearchableFeature("import_config",
                 context.getString(R.string.import_settings),
                 context.getString(R.string.backup_settings),
-                SearchableFeature.Category.HOME_ACTIONS,
-                SearchableFeature.FragmentType.HOME,
+                SearchableFeature.Category.SETTINGS,
+                SearchableFeature.FragmentType.SETTINGS_ABOUT,
                 null,
                 Arrays.asList("import", "restore", "settings", "config")));
 
         catalog.add(new SearchableFeature("reset_config",
                 context.getString(R.string.reset_settings),
                 null,
-                SearchableFeature.Category.HOME_ACTIONS,
-                SearchableFeature.FragmentType.HOME,
+                SearchableFeature.Category.SETTINGS,
+                SearchableFeature.FragmentType.SETTINGS_ABOUT,
                 null,
                 Arrays.asList("reset", "settings", "clear")));
 
         catalog.add(new SearchableFeature("reboot_wpp",
                 context.getString(R.string.restart_whatsapp),
                 null,
-                SearchableFeature.Category.HOME_ACTIONS,
-                SearchableFeature.FragmentType.HOME,
+                SearchableFeature.Category.SETTINGS,
+                SearchableFeature.FragmentType.SETTINGS_ABOUT,
                 null,
                 Arrays.asList("restart", "reboot", "whatsapp", "refresh")));
     }

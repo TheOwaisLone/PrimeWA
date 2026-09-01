@@ -2,6 +2,7 @@
 
 # PrimeWA (WaEnhancer Fork)
 <div align="center">
+  <img src="../primewa_icon.png" width="100" height="100" alt="PrimeWA Logo" style="border-radius: 20px;" /><br/>
   <p><strong>PrimeWA is an enhanced Xposed module providing advanced privacy, media tools, and customization for WhatsApp.</strong></p>
   <p><em>Forked &amp; Redesigned by Owais • Based on WaEnhancer by Dev4Mod &amp; Contributors</em></p>
   <p><strong>Warning:</strong> This module is intended for educational purposes only, you may have problems with your WhatsApp account, risk of banning! Use it at your own risk.</p>

@@ -18,6 +18,12 @@
             app:summary="@string/hide_launcher_icon_sum"
             app:title="@string/hide_launcher_icon" />
 
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="true"
+            app:key="direct_root_restart"
+            app:summary="@string/direct_root_restart_sum"
+            app:title="@string/direct_root_restart" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

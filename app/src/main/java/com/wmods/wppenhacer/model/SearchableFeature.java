@@ -22,7 +22,8 @@ public class SearchableFeature {
         MEDIA("Media"),
         RECORDINGS("Recordings"),
         MISC("Miscellaneous"),
-        HOME_ACTIONS("Home Actions");
+        SETTINGS("Settings & About"),
+        HOME_ACTIONS("Settings & About");
 
         private final String displayName;
 
@@ -46,6 +47,7 @@ public class SearchableFeature {
         MEDIA,
         RECORDINGS,
         MISC,
+        SETTINGS_ABOUT,
         ACTIVITY;
     }
 

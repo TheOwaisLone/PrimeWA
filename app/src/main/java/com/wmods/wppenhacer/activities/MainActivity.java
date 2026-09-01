@@ -1,13 +1,18 @@
 package com.wmods.wppenhacer.activities;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -17,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.waseemsabir.betterypermissionhelper.BatteryPermissionHelper;
 import com.wmods.wppenhacer.App;
+import com.wmods.wppenhacer.BuildConfig;
 import com.wmods.wppenhacer.R;
 import com.wmods.wppenhacer.activities.base.BaseActivity;
 import com.wmods.wppenhacer.databinding.ActivityMainBinding;
@@ -99,6 +105,7 @@ public class MainActivity extends BaseActivity {
                 case "MEDIA" -> new com.wmods.wppenhacer.ui.fragments.MediaFragment();
                 case "RECORDINGS" -> new com.wmods.wppenhacer.ui.fragments.RecordingsFragment();
                 case "MISC" -> new com.wmods.wppenhacer.ui.fragments.MiscFragment();
+                case "SETTINGS_ABOUT" -> new com.wmods.wppenhacer.ui.fragments.SettingsAboutFragment();
                 default -> null;
             };
 
@@ -285,6 +292,90 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private final BroadcastReceiver restartPromptReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            showRestartPrompt();
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        androidx.core.content.ContextCompat.registerReceiver(
+                this,
+                restartPromptReceiver,
+                new IntentFilter(BuildConfig.APPLICATION_ID + ".MANUAL_RESTART"),
+                androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            unregisterReceiver(restartPromptReceiver);
+        } catch (Exception ignored) {}
+    }
+
+    public void showRestartPrompt() {
+        if (isFinishing() || isDestroyed()) return;
+
+        boolean hasWpp = isPackageInstalled("com.whatsapp");
+        boolean hasW4b = isPackageInstalled("com.whatsapp.w4b");
+
+        if (!hasWpp && !hasW4b) return;
+
+        com.google.android.material.snackbar.Snackbar snackbar =
+                com.google.android.material.snackbar.Snackbar.make(
+                        binding.getRoot(),
+                        R.string.restart_prompt_message,
+                        com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+                );
+        snackbar.setAction(R.string.restart_whatsapp, v -> {
+            if (hasWpp && hasW4b) {
+                showRestartSelectionDialog();
+            } else if (hasWpp) {
+                App.instance.restartApp("com.whatsapp", true);
+                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp"), Toast.LENGTH_SHORT).show();
+            } else {
+                App.instance.restartApp("com.whatsapp.w4b", true);
+                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp Business"), Toast.LENGTH_SHORT).show();
+            }
+        });
+        snackbar.show();
+    }
+
+    private void showRestartSelectionDialog() {
+        String[] options = new String[]{"WhatsApp", "WhatsApp Business", getString(R.string.restart_both)};
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.restart_whatsapp_title)
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        App.instance.restartApp("com.whatsapp", true);
+                        Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp"), Toast.LENGTH_SHORT).show();
+                    } else if (which == 1) {
+                        App.instance.restartApp("com.whatsapp.w4b", true);
+                        Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp Business"), Toast.LENGTH_SHORT).show();
+                    } else if (which == 2) {
+                        App.instance.restartApp("com.whatsapp", true);
+                        App.instance.restartApp("com.whatsapp.w4b", true);
+                        Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp & Business"), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private boolean isPackageInstalled(String packageName) {
+        try {
+            getPackageManager().getPackageInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     public static boolean isXposedEnabled() {
