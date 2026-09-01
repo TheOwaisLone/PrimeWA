@@ -99,10 +99,12 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     
     static class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
         private final TextView sectionTitle;
+        private final View sectionIndicator;
         
         public SectionHeaderViewHolder(@NonNull View itemView) {
             super(itemView);
             sectionTitle = itemView.findViewById(R.id.sectionTitle);
+            sectionIndicator = itemView.findViewById(R.id.sectionIndicator);
         }
         
         public void bind(String title) {
@@ -134,9 +136,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 summaryTextView.setVisibility(View.GONE);
             }
             
-            // Set category badge
+            // Set category badge with rounded pill shape
             categoryBadge.setText(feature.getCategory().getDisplayName().toUpperCase(Locale.ROOT));
-            categoryBadge.setBackgroundColor(getCategoryColor(feature.getCategory()));
+            android.graphics.drawable.GradientDrawable badgeDrawable = new android.graphics.drawable.GradientDrawable();
+            badgeDrawable.setShape(android.graphics.drawable.GradientDrawable.RECTANGLE);
+            float radius = 12 * itemView.getResources().getDisplayMetrics().density;
+            badgeDrawable.setCornerRadius(radius);
+            badgeDrawable.setColor(getCategoryColor(feature.getCategory()));
+            categoryBadge.setBackground(badgeDrawable);
             
             // Set click listener
             itemView.setOnClickListener(v -> {
@@ -147,19 +154,25 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         
         private CharSequence highlightText(String text, String query) {
-            if (text == null || query == null || query.isEmpty()) {
+            if (text == null || query == null || query.trim().isEmpty()) {
                 return text;
             }
             
             SpannableString spannable = new SpannableString(text);
-            String lowerText = text.toLowerCase();
-            String lowerQuery = query.toLowerCase();
+            String lowerText = text.toLowerCase(Locale.ROOT);
+            String lowerQuery = query.toLowerCase(Locale.ROOT).trim();
             
             int start = lowerText.indexOf(lowerQuery);
             if (start >= 0) {
-                int end = start + query.length();
+                int end = start + lowerQuery.length();
                 spannable.setSpan(
-                        new BackgroundColorSpan(Color.parseColor("#4DFFD700")),
+                        new BackgroundColorSpan(Color.parseColor("#3325D366")),
+                        start,
+                        end,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                spannable.setSpan(
+                        new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
                         start,
                         end,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -172,27 +185,27 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private int getCategoryColor(SearchableFeature.Category category) {
             switch (category) {
                 case GENERAL:
-                    return Color.parseColor("#4CAF50"); // Green
+                    return Color.parseColor("#2E7D32"); // Forest Green
                 case CONVERSATION:
-                    return Color.parseColor("#009688"); // Teal
+                    return Color.parseColor("#00897B"); // Teal
                 case STATUS:
-                    return Color.parseColor("#E91E63"); // Pink
+                    return Color.parseColor("#D81B60"); // Rose Pink
                 case HOME:
-                    return Color.parseColor("#3F51B5"); // Indigo
+                    return Color.parseColor("#3949AB"); // Indigo
                 case PRIVACY:
-                    return Color.parseColor("#2196F3"); // Blue
+                    return Color.parseColor("#1E88E5"); // Blue
                 case CALLS:
-                    return Color.parseColor("#00BCD4"); // Cyan
+                    return Color.parseColor("#00ACC1"); // Cyan
                 case CUSTOMIZATION:
-                    return Color.parseColor("#9C27B0"); // Purple
+                    return Color.parseColor("#8E24AA"); // Purple
                 case MEDIA:
-                    return Color.parseColor("#FF9800"); // Orange
+                    return Color.parseColor("#FB8C00"); // Orange
                 case RECORDINGS:
-                    return Color.parseColor("#F44336"); // Red
+                    return Color.parseColor("#E53935"); // Red
                 case MISC:
-                    return Color.parseColor("#795548"); // Brown
+                    return Color.parseColor("#6D4C41"); // Brown
                 case HOME_ACTIONS:
-                    return Color.parseColor("#607D8B"); // Blue Grey
+                    return Color.parseColor("#546E7A"); // Slate Blue
                 default:
                     return Color.parseColor("#757575"); // Grey
             }
