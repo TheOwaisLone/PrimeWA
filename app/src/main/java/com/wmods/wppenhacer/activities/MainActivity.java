@@ -80,6 +80,23 @@ public class MainActivity extends BaseActivity {
         createMainDir();
         FilePicker.registerFilePicker(this);
         com.wmods.wppenhacer.utils.LegalDisclaimerDialog.checkAndShow(this);
+
+        binding.btnRestartApp.setOnClickListener(v -> {
+            boolean hasWpp = isPackageInstalled("com.whatsapp");
+            boolean hasW4b = isPackageInstalled("com.whatsapp.w4b");
+            if (hasWpp && hasW4b) {
+                showRestartSelectionDialog();
+            } else if (hasWpp) {
+                App.instance.restartApp("com.whatsapp", true);
+                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp"), Toast.LENGTH_SHORT).show();
+            } else if (hasW4b) {
+                App.instance.restartApp("com.whatsapp.w4b", true);
+                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp Business"), Toast.LENGTH_SHORT).show();
+            }
+            hideRestartPrompt();
+        });
+
+        binding.btnDismissRestartBanner.setOnClickListener(v -> hideRestartPrompt());
     }
 
     @Override
@@ -321,31 +338,38 @@ public class MainActivity extends BaseActivity {
     }
 
     public void showRestartPrompt() {
-        if (isFinishing() || isDestroyed()) return;
+        runOnUiThread(() -> {
+            if (isFinishing() || isDestroyed()) return;
 
-        boolean hasWpp = isPackageInstalled("com.whatsapp");
-        boolean hasW4b = isPackageInstalled("com.whatsapp.w4b");
+            boolean hasWpp = isPackageInstalled("com.whatsapp");
+            boolean hasW4b = isPackageInstalled("com.whatsapp.w4b");
 
-        if (!hasWpp && !hasW4b) return;
+            if (!hasWpp && !hasW4b) return;
 
-        com.google.android.material.snackbar.Snackbar snackbar =
-                com.google.android.material.snackbar.Snackbar.make(
-                        binding.getRoot(),
-                        R.string.restart_prompt_message,
-                        com.google.android.material.snackbar.Snackbar.LENGTH_LONG
-                );
-        snackbar.setAction(R.string.restart_whatsapp, v -> {
-            if (hasWpp && hasW4b) {
-                showRestartSelectionDialog();
-            } else if (hasWpp) {
-                App.instance.restartApp("com.whatsapp", true);
-                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp"), Toast.LENGTH_SHORT).show();
-            } else {
-                App.instance.restartApp("com.whatsapp.w4b", true);
-                Toast.makeText(this, getString(R.string.restarting_pkg, "WhatsApp Business"), Toast.LENGTH_SHORT).show();
+            if (binding.restartBanner.getVisibility() != android.view.View.VISIBLE) {
+                binding.restartBanner.setAlpha(0f);
+                binding.restartBanner.setTranslationY(60f);
+                binding.restartBanner.setVisibility(android.view.View.VISIBLE);
+                binding.restartBanner.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(250)
+                        .start();
             }
         });
-        snackbar.show();
+    }
+
+    public void hideRestartPrompt() {
+        runOnUiThread(() -> {
+            if (binding.restartBanner.getVisibility() == android.view.View.VISIBLE) {
+                binding.restartBanner.animate()
+                        .alpha(0f)
+                        .translationY(60f)
+                        .setDuration(200)
+                        .withEndAction(() -> binding.restartBanner.setVisibility(android.view.View.GONE))
+                        .start();
+            }
+        });
     }
 
     private void showRestartSelectionDialog() {

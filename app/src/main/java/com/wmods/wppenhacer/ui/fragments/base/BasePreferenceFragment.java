@@ -86,8 +86,12 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
-        if (!Objects.equals(s, "hide_launcher_icon") && !Objects.equals(s, "disclaimer_accepted_v1") && !Objects.equals(s, "thememode")) {
+        if (!Objects.equals(s, "hide_launcher_icon") && !Objects.equals(s, "disclaimer_accepted_v1") && !Objects.equals(s, "thememode") && !Objects.equals(s, "direct_root_restart")) {
+            if (getActivity() instanceof com.wmods.wppenhacer.activities.MainActivity) {
+                ((com.wmods.wppenhacer.activities.MainActivity) getActivity()).showRestartPrompt();
+            }
             Intent intent = new Intent(BuildConfig.APPLICATION_ID + ".MANUAL_RESTART");
+            intent.setPackage(BuildConfig.APPLICATION_ID);
             App.instance.sendBroadcast(intent);
         }
         if (isAdded()) {

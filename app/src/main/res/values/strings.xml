@@ -724,7 +724,8 @@
     <string name="hide_launcher_icon_sum">Hide Prime WA icon from the home launcher screen (Can still be opened from LSPosed or WhatsApp)</string>
     <string name="direct_root_restart">Direct Root App Restart</string>
     <string name="direct_root_restart_sum">Use Root privileges to immediately terminate and restart WhatsApp when applying changes</string>
-    <string name="restart_prompt_message">Changes saved. Restart WhatsApp now?</string>
+    <string name="restart">Restart</string>
+    <string name="restart_prompt_message">Changes saved. Restart WhatsApp to apply?</string>
     <string name="restart_both">Restart Both</string>
     <string name="restart_whatsapp_title">Restart WhatsApp</string>
     <string name="restart_whatsapp_desc">Select which WhatsApp to restart to apply changes</string>
