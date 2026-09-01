@@ -2,7 +2,9 @@ package com.wmods.wppenhacer.xposed.features.others
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.Menu
 import android.view.MenuItem
 import com.wmods.wppenhacer.BuildConfig
@@ -15,7 +17,6 @@ import com.wmods.wppenhacer.xposed.core.components.AlertDialogWpp
 import com.wmods.wppenhacer.xposed.utils.DesignUtils
 import com.wmods.wppenhacer.xposed.utils.Utils
 import de.robv.android.xposed.XC_MethodHook
-import android.content.SharedPreferences 
 import de.robv.android.xposed.XposedHelpers
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -25,6 +26,14 @@ class MenuHome(classLoader: ClassLoader, preferences:SharedPreferences) :
     override fun doHook() {
         hookMenu()
         val action = prefs.getBoolean("buttonaction", true)
+
+        // open Prime WA first so it appears at the top
+        addMenuItem { menu, activity ->
+            this.insertOpenWae(
+                menu,
+                activity
+            )
+        }
 
         // restart button
         addMenuItem { menu, activity ->
@@ -61,32 +70,37 @@ class MenuHome(classLoader: ClassLoader, preferences:SharedPreferences) :
                 action
             )
         }
-
-        // open WAE
-        addMenuItem { menu, activity ->
-            this.insertOpenWae(
-                menu,
-                activity
-            )
-        }
     }
 
     private fun insertOpenWae(menu: Menu, activity: Activity) {
         val waeMenu = prefs.getBoolean("open_wae", true)
         if (!waeMenu) return
-        val itemMenu = menu.add(0, 0, 9999, " " + activity.getString(R.string.app_name))
+        val itemMenu = menu.add(0, 0, 0, " " + activity.getString(R.string.app_name))
         val iconDraw = DesignUtils.getDrawableByName("ic_settings")
-        iconDraw!!.setTint(-0x796960)
+        iconDraw?.setTint(-0x796960)
         itemMenu.icon = iconDraw
         itemMenu.setOnMenuItemClickListener {
             try {
-                val intent = activity.packageManager.getLaunchIntentForPackage(
-                    BuildConfig.APPLICATION_ID
-                )
-                intent!!.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val intent = Intent().apply {
+                    component = ComponentName(
+                        BuildConfig.APPLICATION_ID,
+                        "com.wmods.wppenhacer.activities.MainActivity"
+                    )
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
                 activity.startActivity(intent)
             } catch (e: Exception) {
-                Utils.showToast(e.message)
+                try {
+                    val fallbackIntent = activity.packageManager.getLaunchIntentForPackage(
+                        BuildConfig.APPLICATION_ID
+                    ) ?: Intent(Intent.ACTION_MAIN).apply {
+                        setClassName(BuildConfig.APPLICATION_ID, "com.wmods.wppenhacer.activities.MainActivity")
+                    }
+                    fallbackIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    activity.startActivity(fallbackIntent)
+                } catch (e2: Exception) {
+                    Utils.showToast("Could not open Prime WA: ${e2.message}")
+                }
             }
             true
         }
