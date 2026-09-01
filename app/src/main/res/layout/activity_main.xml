@@ -36,90 +36,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
-    <!-- Floating Restart Banner -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/restartBanner"
-        android:layout_width="match_parent"
+    <!-- Floating Action Button for Instant Restart -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabRestart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/restart_whatsapp_title"
+        android:src="@drawable/ic_reload"
         android:visibility="gone"
-        app:cardBackgroundColor="@color/surface_container"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
-        app:strokeColor="@color/primary_color"
-        app:strokeWidth="1.5dp"
+        app:backgroundTint="@color/primary_color"
+        app:elevation="6dp"
+        app:fabCustomSize="56dp"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="10dp">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_reload"
-                app:tint="@color/primary_color" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/restart_whatsapp_title"
-                    android:textColor="@color/text_primary"
-                    android:textSize="13.5sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/restart_prompt_message"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11.5sp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnRestartApp"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp"
-                android:text="@string/restart"
-                android:textColor="@color/primary_color"
-                android:textSize="12.5sp"
-                android:textStyle="bold"
-                app:cornerRadius="19dp" />
-
-            <ImageButton
-                android:id="@+id/btnDismissRestartBanner"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_close"
-                app:tint="@color/text_tertiary" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="28dp"
+        app:rippleColor="@color/text_on_gradient"
+        app:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
