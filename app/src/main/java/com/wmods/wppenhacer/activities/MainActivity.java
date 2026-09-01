@@ -73,6 +73,7 @@ public class MainActivity extends BaseActivity {
 
         createMainDir();
         FilePicker.registerFilePicker(this);
+        com.wmods.wppenhacer.utils.LegalDisclaimerDialog.checkAndShow(this);
     }
 
     @Override

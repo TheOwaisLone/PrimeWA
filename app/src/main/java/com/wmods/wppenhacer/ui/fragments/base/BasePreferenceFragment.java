@@ -86,8 +86,10 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
-        Intent intent = new Intent(BuildConfig.APPLICATION_ID + ".MANUAL_RESTART");
-        App.instance.sendBroadcast(intent);
+        if (!Objects.equals(s, "hide_launcher_icon") && !Objects.equals(s, "disclaimer_accepted_v1") && !Objects.equals(s, "thememode")) {
+            Intent intent = new Intent(BuildConfig.APPLICATION_ID + ".MANUAL_RESTART");
+            App.instance.sendBroadcast(intent);
+        }
         if (isAdded()) {
             chanceStates(s);
         }

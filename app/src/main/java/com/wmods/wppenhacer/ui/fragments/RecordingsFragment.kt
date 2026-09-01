@@ -96,6 +96,10 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingActionListen
         binding.switchCallRecording.setOnCheckedChangeListener { _, checked ->
             prefs.edit().putBoolean("call_recording_enable", checked).apply()
             binding.controlsContainer.visibility = if (checked) View.VISIBLE else View.GONE
+            try {
+                val intent = Intent(com.wmods.wppenhacer.BuildConfig.APPLICATION_ID + ".MANUAL_RESTART")
+                com.wmods.wppenhacer.App.instance.sendBroadcast(intent)
+            } catch (_: Throwable) {}
         }
 
         // Mode Chips
@@ -109,6 +113,10 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordingActionListen
                 binding.tvModeDesc.text = getString(R.string.non_root_mode_description)
                 binding.btnCheckRoot.visibility = View.GONE
                 Toast.makeText(context, R.string.non_root_mode_enabled, Toast.LENGTH_SHORT).show()
+                try {
+                    val intent = Intent(com.wmods.wppenhacer.BuildConfig.APPLICATION_ID + ".MANUAL_RESTART")
+                    com.wmods.wppenhacer.App.instance.sendBroadcast(intent)
+                } catch (_: Throwable) {}
             }
         }
 

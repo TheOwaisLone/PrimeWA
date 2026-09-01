@@ -83,10 +83,10 @@ public class FeatureCatalog {
         catalog.add(new SearchableFeature("bypass_version_check",
                 context.getString(R.string.disable_version_check),
                 context.getString(R.string.disable_version_check_sum),
-                SearchableFeature.Category.GENERAL,
-                SearchableFeature.FragmentType.GENERAL,
+                SearchableFeature.Category.MISC,
+                SearchableFeature.FragmentType.MISC,
                 null,
-                Arrays.asList("version", "check", "bypass")));
+                Arrays.asList("version", "check", "bypass", "expiration")));
 
         catalog.add(new SearchableFeature("hide_launcher_icon",
                 context.getString(R.string.hide_launcher_icon),

@@ -6,13 +6,6 @@
         app:title="@string/general">
 
         <ListPreference
-            app:entries="@array/thememode_entries"
-            app:entryValues="@array/thememode_values"
-            app:key="thememode"
-            app:summary="%s"
-            app:title="@string/theme_mode" />
-
-        <ListPreference
             app:defaultValue="preset"
             app:entries="@array/wae_color_mode_entries"
             app:entryValues="@array/wae_color_mode_values"

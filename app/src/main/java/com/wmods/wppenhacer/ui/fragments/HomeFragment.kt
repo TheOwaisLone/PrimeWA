@@ -121,7 +121,7 @@ class HomeFragment : BaseFragment() {
 
         binding.updateCard.setOnClickListener { view ->
             animateClick(view)
-            Utils.openLink(requireActivity(), "https://t.me/waenhancher")
+            Utils.openLink(requireActivity(), "https://github.com/TheOwaisLone/PrimeWA/releases")
         }
 
         binding.diagBtn.setOnClickListener { view ->
@@ -402,7 +402,7 @@ class HomeFragment : BaseFragment() {
                     .build()
 
                 val request = Request.Builder()
-                    .url("https://api.github.com/repos/Dev4Mod/WaEnhancer/releases/latest")
+                    .url("https://api.github.com/repos/TheOwaisLone/PrimeWA/releases/latest")
                     .build()
 
                 client.newCall(request).execute().use { response ->

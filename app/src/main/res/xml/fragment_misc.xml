@@ -46,6 +46,12 @@
 
         <rikka.material.preference.MaterialSwitchPreference
             app:defaultValue="false"
+            app:key="bypass_version_check"
+            app:summary="@string/disable_version_check_sum"
+            app:title="@string/disable_version_check" />
+
+        <rikka.material.preference.MaterialSwitchPreference
+            app:defaultValue="false"
             app:key="force_restore_backup_feature"
             app:summary="@string/force_restore_backup_summary"
             app:title="@string/force_restore_backup" />

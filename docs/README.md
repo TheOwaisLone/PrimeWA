@@ -11,17 +11,19 @@
 
 ---
 
-## Legal Disclaimer & Project Scope
+## 🛡️ Terms of Use, Privacy Policy & Absolute Liability Waiver
 
-To avoid any misunderstanding regarding the nature, goals, and scope of this project, we explicitly state that:
+Please read this disclaimer carefully before using PrimeWA:
 
-*   **Zero Proprietary Code:** This repository **DOES NOT** contain, host, or distribute any source code belonging to WhatsApp Inc., Meta Platforms, Inc., or any of their affiliates.
-*   **No APK Distribution:** We **DO NOT** distribute, host, or provide links to modified WhatsApp binary files (APKs). The APKs generated in the GitHub Actions tab are strictly the Xposed module itself, not a messaging application.
-*   **No Piracy or Bypasses:** WaEnhancer **DOES NOT** bypass premium accounts or subscriptions, does not unlock paid features illegally, and does not facilitate any form of piracy.
-*   **Security and Integrity:** This project **DOES NOT** provide tools to break, bypass, or weaken the encryption, security, or server infrastructure of WhatsApp.
-*   **User Responsibility:** This is an educational research project. The use of this tool is entirely at the end user's own risk. We are not responsible for any account bans or violations of third-party Terms of Service that the user may commit when using modifications on their own device.
-
-All modifications are made dynamically in the memory of the user's own device through the Xposed framework, without tampering with the original application package.
+*   **1. Educational & Research Scope:** PrimeWA is an independent open-source project and Xposed module intended strictly for educational, security research, and personal customization purposes.
+*   **2. Absolute Disclaimer of Liability & Warranty:** This software is provided **"AS IS"** and **"AS AVAILABLE"** without warranties of any kind, either express or implied. Under no circumstances and under no legal theory shall the maintainer/developer of PrimeWA (**Owais / TheOwaisLone**), the original author of WaEnhancer (**Dev4Mod**), or any contributors be held liable or responsible for:
+    *   **Device Failures:** Any hardware malfunction, soft-bricks, bootloops, system errors, or electronic defects occurring on your device.
+    *   **Data Loss & Corruption:** Any loss, corruption, alteration, accidental deletion, or inability to recover messages, media files, call recordings, databases, encryption keys, or system data.
+    *   **Third-Party Compromise:** Any security vulnerabilities, data leaks, or unauthorized interference caused by third-party software, root tools, malicious modules, or network interceptors.
+    *   **Account Restrictions & Bans:** Any temporary or permanent account restrictions, suspensions, or bans issued by WhatsApp LLC, Meta Platforms, Inc., or affiliated entities.
+*   **3. Zero Proprietary Code:** This repository **DOES NOT** contain, host, or distribute any source code or assets belonging to WhatsApp LLC, Meta Platforms, Inc., or their affiliates.
+*   **4. No Modded APK Distribution:** We **DO NOT** distribute modified WhatsApp client binaries. All modifications are injected dynamically into memory via the Xposed framework on the user's local device.
+*   **5. User Responsibility:** Installing and using this module is done entirely at the end user's own risk and discretion. You assume full responsibility for your actions and waive all claims against the developers and contributors.
 
 ---
 

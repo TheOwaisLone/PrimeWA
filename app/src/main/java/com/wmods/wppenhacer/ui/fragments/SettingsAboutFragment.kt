@@ -93,7 +93,7 @@ class SettingsAboutFragment : Fragment() {
         }
 
         binding.btnGithubPrime.setOnClickListener {
-            openUrl("https://github.com/owais/prime-wa")
+            openUrl("https://github.com/TheOwaisLone/PrimeWA")
         }
 
         binding.btnTelegramUpstream.setOnClickListener {
@@ -104,13 +104,17 @@ class SettingsAboutFragment : Fragment() {
             openUrl("https://github.com/Dev4Mod/WaEnhancer")
         }
 
-        // Contributors & License Dialogs
+        // Contributors, License & Disclaimer Dialogs
         binding.btnContributors.setOnClickListener {
             showContributorsDialog()
         }
 
         binding.btnLicense.setOnClickListener {
             showLicenseDialog()
+        }
+
+        binding.btnDisclaimer.setOnClickListener {
+            com.wmods.wppenhacer.utils.LegalDisclaimerDialog.show(requireActivity())
         }
 
         // Load Native Ad

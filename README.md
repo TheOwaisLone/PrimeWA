@@ -90,9 +90,16 @@ We extend our deep gratitude to **Dev4Mod** and all upstream contributors who es
 
 ---
 
-## 🛡️ Legal Disclaimer
+## 🛡️ Terms of Use, Privacy Policy & Absolute Liability Waiver
 
-* **Zero Proprietary Code**: This repository does not contain, host, or distribute any proprietary assets or binaries belonging to WhatsApp LLC or Meta Platforms, Inc.
-* **No Modded APKs**: This project does not distribute modified WhatsApp client binaries. It is strictly an Xposed runtime hook module.
-* **Local Memory Execution**: All enhancements are executed dynamically in device RAM via the Xposed framework without tampering with WhatsApp installation packages.
-* **Educational Scope**: This project is developed for educational and security research purposes. Use responsibly and in accordance with relevant terms of service.
+Please read this disclaimer carefully before using PrimeWA:
+
+* **1. Educational & Research Scope**: PrimeWA is an independent open-source project and Xposed module intended strictly for educational, security research, and personal customization purposes.
+* **2. Absolute Disclaimer of Liability & Warranty**: This software is provided **"AS IS"** and **"AS AVAILABLE"** without warranties of any kind, either express or implied. Under no circumstances and under no legal theory (contract, tort, negligence, or otherwise) shall the maintainer/developer of PrimeWA (**Owais / TheOwaisLone**), the original author of WaEnhancer (**Dev4Mod**), or any upstream/downstream contributors be held liable or responsible for:
+  * **Device Damages**: Any hardware failures, soft-bricks, bootloops, system errors, or device malfunctions.
+  * **Data Loss & Corruption**: Any loss, corruption, leakage, or accidental deletion of chats, media files, call recordings, databases, cryptographic keys, or system data.
+  * **Third-Party Actions & Compromises**: Any security breaches, data leaks, or unauthorized interference caused by third-party applications, root exploits, malicious modules, or modified environments.
+  * **Account Restrictions & Bans**: Any temporary or permanent account restrictions, suspensions, or bans issued by WhatsApp LLC, Meta Platforms, Inc., or affiliated entities.
+* **3. Zero Proprietary Assets**: This repository **DOES NOT** contain, host, or distribute any proprietary assets, decrypted code, or binaries belonging to WhatsApp LLC or Meta Platforms, Inc.
+* **4. No Modded APK Binaries**: We do not host or distribute modified WhatsApp client binaries. All modifications are injected dynamically into memory via the Xposed framework on the user's local device.
+* **5. User Responsibility**: Installing and using this module is done entirely at the end user's own risk and discretion. By using this software, you assume full responsibility for your actions and waive all claims against the developers and contributors.

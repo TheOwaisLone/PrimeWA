@@ -325,6 +325,16 @@
                         android:text="@string/btn_view_license"
                         android:textSize="12.5sp" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDisclaimer"
+                        style="@style/ModernButton.Outlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Terms of Use &amp; Legal Disclaimer"
+                        android:textSize="12.5sp"
+                        app:icon="@drawable/ic_round_warning_24" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
